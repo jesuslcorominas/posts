@@ -1,0 +1,6 @@
+rootProject.name='Posts'
+include ':app'
+include ':domain'
+include ':testShared'
+include ':data'
+include ':usecases'
