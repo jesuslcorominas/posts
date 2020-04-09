@@ -9,9 +9,12 @@ class PostRepository(
     private val postRemoteDatasource: PostRemoteDatasource
 ) {
 
+    // TODO hacer reactivo
     fun getPosts(): List<Post> {
         if (postLocalDatasource.isEmpty()) {
-            postLocalDatasource.savePosts(postRemoteDatasource.getPosts())
+            postRemoteDatasource.getPosts().subscribe { posts, error ->
+                postLocalDatasource.savePosts(posts)
+            }
         }
 
         return postLocalDatasource.getPosts()
