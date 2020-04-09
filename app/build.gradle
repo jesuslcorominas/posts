@@ -29,9 +29,12 @@ dependencies {
 
     implementation project(":domain")
     implementation project(":usecases")
+    implementation project(":data")
 
     implementation androidLibs.values()
     implementation kotlinLibs.values()
+
+    implementation libs.values()
 
     testImplementation testLibs.values()
     androidTestImplementation androidTestLibs.values()
