@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jesuslcorominas.posts.domain.Post
-import com.jesuslcorominas.posts.usecases.GetPostsUseCase
+import com.jesuslcorominas.posts.usecases.GetPostUseCase
 
 
-class MainViewModel(private val getPostsUseCase: GetPostsUseCase) : ViewModel() {
+class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
     private val _items: MutableLiveData<Post> = MutableLiveData()
     val items: LiveData<Post> get() = _items
 
@@ -16,7 +16,7 @@ class MainViewModel(private val getPostsUseCase: GetPostsUseCase) : ViewModel() 
     }
 
     fun getPosts() {
-        getPostsUseCase.getPosts()
+        getPostUseCase.getPosts()
     }
 
 }
