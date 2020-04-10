@@ -1,10 +1,11 @@
 package com.jesuslcorominas.posts.app.data.local.database
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jesuslcorominas.posts.app.data.local.model.Post
 
+@Dao
 interface PostDao {
 
     @Query("SELECT count(id) FROM Post")

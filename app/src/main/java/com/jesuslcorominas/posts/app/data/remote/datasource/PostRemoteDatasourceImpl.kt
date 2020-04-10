@@ -1,6 +1,6 @@
 package com.jesuslcorominas.posts.app.data.remote.datasource
 
-import com.jesuslcorominas.posts.app.data.remote.model.toDomainPost
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
 import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException

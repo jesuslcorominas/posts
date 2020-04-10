@@ -1,6 +1,6 @@
 package com.jesuslcorominas.posts.app.data.remote.datasource
 
-import com.jesuslcorominas.posts.app.data.remote.model.toRemotePost
+import com.jesuslcorominas.posts.app.data.remote.service.toRemotePost
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteApi
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
 import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
@@ -15,7 +15,7 @@ import org.junit.Test
 import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
-import com.jesuslcorominas.posts.app.data.remote.model.Post as RemotePost
+import com.jesuslcorominas.posts.app.data.remote.service.Post as RemotePost
 import com.jesuslcorominas.posts.domain.Post as DomainPost
 
 

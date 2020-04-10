@@ -1,8 +1,8 @@
 package com.jesuslcorominas.posts.app.data.local.datasource
 
 import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
-import com.jesuslcorominas.posts.app.data.local.model.toDbPost
-import com.jesuslcorominas.posts.app.data.local.model.toDomainPost
+import com.jesuslcorominas.posts.app.data.local.database.toDbPost
+import com.jesuslcorominas.posts.app.data.local.database.toDomainPost
 import com.jesuslcorominas.posts.data.source.PostLocalDatasource
 import com.jesuslcorominas.posts.domain.Post
 import io.reactivex.Completable

@@ -2,7 +2,7 @@ package com.jesuslcorominas.posts.app.data.local.datasource
 
 import com.jesuslcorominas.posts.app.data.local.database.PostDao
 import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
-import com.jesuslcorominas.posts.app.data.local.model.toDbPost
+import com.jesuslcorominas.posts.app.data.local.database.toDbPost
 import com.jesuslcorominas.posts.data.source.PostLocalDatasource
 import com.jesuslcorominas.posts.domain.Post
 import com.jesuslcorominas.posts.testshared.mockedPost

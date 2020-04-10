@@ -1,4 +1,4 @@
-package com.jesuslcorominas.posts.app.data.remote.model
+package com.jesuslcorominas.posts.app.data.remote.service
 
 data class Post(val id: Int, val userId: Int, val title: String, val body: String)
 

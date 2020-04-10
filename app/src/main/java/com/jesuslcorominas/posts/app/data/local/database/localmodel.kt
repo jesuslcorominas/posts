@@ -1,4 +1,4 @@
-package com.jesuslcorominas.posts.app.data.local.model
+package com.jesuslcorominas.posts.app.data.local.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
