@@ -12,13 +12,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-    private val _items: MutableLiveData<Post> = MutableLiveData()
-    val items: LiveData<Post> get() = _items
+    private val _items: MutableLiveData<List<Post>> = MutableLiveData()
+    val items: LiveData<List<Post>> get() = _items
 
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String> get() = _error;
@@ -27,14 +28,14 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
         getPosts()
     }
 
-    fun getPosts() {
+    private fun getPosts() {
         disposables.add(
             getPostUseCase.getPosts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Post>>() {
                     override fun onSuccess(t: List<Post>) {
-                        TODO("Not implemented")
+                        _items.value = t
                     }
 
                     override fun onError(e: Throwable) {
@@ -48,6 +49,12 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
                     }
                 })
         )
+    }
+
+    fun onPostClicked(post: Post) {
+        with(post) {
+            Timber.i("Post \"${title}\" seleccionado con id ${id}")
+        }
     }
 
     override fun onCleared() {
