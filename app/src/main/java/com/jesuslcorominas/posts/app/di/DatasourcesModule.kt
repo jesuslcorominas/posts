@@ -13,7 +13,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class DatasourcesModule() {
+class DatasourcesModule {
 
     companion object {
         const val NAME_BASE_URL = "base_url"
