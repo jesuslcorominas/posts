@@ -8,6 +8,7 @@ import com.jesuslcorominas.posts.usecases.GetPostUseCase
 /**
  * Factory for the three ViewModel of this project
  */
+@Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val getPostUseCase: GetPostUseCase) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

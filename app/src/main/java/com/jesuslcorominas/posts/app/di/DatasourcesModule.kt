@@ -5,6 +5,8 @@ import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
 import com.jesuslcorominas.posts.app.data.local.datasource.PostLocalDatasourceImpl
 import com.jesuslcorominas.posts.app.data.remote.datasource.PostRemoteDatasourceImpl
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
+import com.jesuslcorominas.posts.data.source.PostLocalDatasource
+import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -34,11 +36,11 @@ class DatasourcesModule() {
 
     @Singleton
     @Provides
-    fun providesPostLocalDatasource(postDatabase: PostDatabase) =
+    fun providesPostLocalDatasource(postDatabase: PostDatabase): PostLocalDatasource =
         PostLocalDatasourceImpl(postDatabase)
 
     @Singleton
     @Provides
-    fun providesPostRemoteDatasource(remoteService: RemoteService) =
+    fun providesPostRemoteDatasource(remoteService: RemoteService): PostRemoteDatasource =
         PostRemoteDatasourceImpl(remoteService)
 }
