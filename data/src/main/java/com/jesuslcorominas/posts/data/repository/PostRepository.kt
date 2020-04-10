@@ -3,6 +3,7 @@ package com.jesuslcorominas.posts.data.repository
 import com.jesuslcorominas.posts.data.source.PostLocalDatasource
 import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
 import com.jesuslcorominas.posts.domain.Post
+import io.reactivex.Single
 
 class PostRepository(
     private val postLocalDatasource: PostLocalDatasource,
@@ -10,12 +11,14 @@ class PostRepository(
 ) {
 
     // TODO hacer reactivo
-    fun getPosts(): List<Post> {
-        if (postLocalDatasource.isEmpty()) {
-            postRemoteDatasource.getPosts().subscribe { posts, error ->
-                postLocalDatasource.savePosts(posts)
-            }
-        }
+    fun getPosts(): Single<List<Post>> {
+//        postLocalDatasource.isEmpty().if
+//
+//        if (postLocalDatasource.isEmpty()) {
+//            postRemoteDatasource.getPosts().subscribe { posts, error ->
+//                postLocalDatasource.savePosts(posts)
+//            }
+//        }
 
         return postLocalDatasource.getPosts()
     }

@@ -4,11 +4,12 @@ import com.jesuslcorominas.posts.app.data.local.database.PostDao
 import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
 import com.jesuslcorominas.posts.app.data.local.model.toDbPost
 import com.jesuslcorominas.posts.data.source.PostLocalDatasource
+import com.jesuslcorominas.posts.domain.Post
 import com.jesuslcorominas.posts.testshared.mockedPost
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import org.junit.Assert.*
+import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 
@@ -32,17 +33,23 @@ class PostLocalDatasourceTest {
     }
 
     @Test
-    fun `when no posts stored isEmpty should return true`() {
+    fun `when no posts stored isEmpty should emmit true`() {
         whenever(postDatabase.postDao().postCount()).thenReturn(0)
 
-        assertTrue(postLocalDatasource.isEmpty())
+        val testObserver: TestObserver<Boolean> = postLocalDatasource.isEmpty().test()
+        testObserver.assertValue { it }
+
+        testObserver.dispose()
     }
 
     @Test
     fun `when some post stored isEmpty should return false`() {
         whenever(postDatabase.postDao().postCount()).thenReturn(1)
 
-        assertFalse(postLocalDatasource.isEmpty())
+        val testObserver: TestObserver<Boolean> = postLocalDatasource.isEmpty().test()
+        testObserver.assertValue { !it }
+
+        testObserver.dispose()
     }
 
     @Test
@@ -51,9 +58,10 @@ class PostLocalDatasourceTest {
 
         whenever(postDatabase.postDao().getAll()).thenReturn(mockStoredPosts.map { it.toDbPost() })
 
-        val storedPost = postLocalDatasource.getPosts()
+        val testObserver: TestObserver<List<Post>> = postLocalDatasource.getPosts().test()
+        testObserver.assertValue { it == mockStoredPosts }
 
-        assertEquals(storedPost, mockStoredPosts)
+        testObserver.dispose()
     }
 
     @Test

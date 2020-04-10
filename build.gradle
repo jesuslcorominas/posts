@@ -35,7 +35,8 @@ allprojects {
                 material           : "com.google.android.material:material:1.0.0",
                 roomRuntime        : "androidx.room:room-runtime:$roomVersion",
                 roomExtensions     : "androidx.room:room-ktx:$roomVersion",
-                timber             : "com.jakewharton.timber:timber:4.7.1"
+                timber             : "com.jakewharton.timber:timber:4.7.1",
+                rxAndroid          : 'io.reactivex.rxjava2:rxandroid:2.1.0'
         ]
 
         androidKaptLibs = [

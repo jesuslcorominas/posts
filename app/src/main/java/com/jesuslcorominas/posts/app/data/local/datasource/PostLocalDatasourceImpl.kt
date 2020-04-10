@@ -5,13 +5,33 @@ import com.jesuslcorominas.posts.app.data.local.model.toDbPost
 import com.jesuslcorominas.posts.app.data.local.model.toDomainPost
 import com.jesuslcorominas.posts.data.source.PostLocalDatasource
 import com.jesuslcorominas.posts.domain.Post
+import io.reactivex.Completable
+import io.reactivex.Single
 
 class PostLocalDatasourceImpl(private val postDatabase: PostDatabase) : PostLocalDatasource {
 
-    override fun isEmpty() = postDatabase.postDao().postCount() == 0
+    override fun isEmpty(): Single<Boolean> {
+        val isEmpty = postDatabase.postDao().postCount() == 0
 
-    override fun getPosts() = postDatabase.postDao().getAll().map { it.toDomainPost() }
+        return Single.create { emitter ->
+            emitter.onSuccess(isEmpty)
+        }
 
-    override fun savePosts(posts: List<Post>) =
+    }
+
+    override fun getPosts(): Single<List<Post>> {
+        val storedPosts: List<Post> = postDatabase.postDao().getAll().map { it.toDomainPost() }
+
+        return Single.create { emitter ->
+            emitter.onSuccess(storedPosts)
+        }
+    }
+
+    override fun savePosts(posts: List<Post>): Completable {
         postDatabase.postDao().insertPosts(posts.map { it.toDbPost() })
+
+        return Completable.complete()
+    }
+
+
 }
