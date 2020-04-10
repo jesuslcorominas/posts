@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.3.71'
     repositories {
         google()
         jcenter()
@@ -27,22 +27,20 @@ allprojects {
         stethoVersion = "1.5.1"
 
         androidLibs = [
-                appcompat           : "androidx.appcompat:appcompat:1.1.0",
-                recyclerview        : "androidx.recyclerview:recyclerview:1.1.0",
-                constraintlayout    : "androidx.constraintlayout:constraintlayout:1.1.3",
-                androidxCore        : "androidx.core:core-ktx:1.2.0",
-                lifecycleExtensions : "android.arch.lifecycle:extensions:1.1.1",
-                playServicesLocation: "com.google.android.gms:play-services-location:17.0.0",
-                material            : "com.google.android.material:material:1.0.0",
-                roomRuntime         : "androidx.room:room-runtime:$roomVersion",
-                roomExtensions      : "androidx.room:room-ktx:$roomVersion",
-                glide               : "com.github.bumptech.glide:glide:4.9.0",
-                dexter              : "com.karumi:dexter:5.0.0",
-                timber              : "com.jakewharton.timber:timber:4.7.1"
+                appcompat          : "androidx.appcompat:appcompat:1.1.0",
+                recyclerview       : "androidx.recyclerview:recyclerview:1.1.0",
+                constraintlayout   : "androidx.constraintlayout:constraintlayout:1.1.3",
+                androidxCore       : "androidx.core:core-ktx:1.2.0",
+                lifecycleExtensions: "android.arch.lifecycle:extensions:1.1.1",
+                material           : "com.google.android.material:material:1.0.0",
+                roomRuntime        : "androidx.room:room-runtime:$roomVersion",
+                roomExtensions     : "androidx.room:room-ktx:$roomVersion",
+                timber             : "com.jakewharton.timber:timber:4.7.1",
+                rxAndroid          : 'io.reactivex.rxjava2:rxandroid:2.1.0'
         ]
 
         androidKaptLibs = [
-                roomCompiler : "androidx.room:room-compiler:$roomVersion",
+                roomCompiler: "androidx.room:room-compiler:$roomVersion",
         ]
 
         kotlinLibs = [
@@ -57,16 +55,19 @@ allprojects {
                 retrofitCoroutinesAdapter: "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
                 picasso                  : "com.squareup.picasso:picasso:2.71828",
                 stetho                   : "com.facebook.stetho:stetho:$stethoVersion",
-                stethoHttp               : "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+                stethoHttp               : "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
+                rxjava                   : "io.reactivex.rxjava2:rxjava:2.2.16"
         ]
 
         testLibs = [
-                junit           : "junit:junit:4.12",
-                mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
-                mockitoInline   : "org.mockito:mockito-inline:2.28.2",
-                koinTest        : "org.koin:koin-test:2.0.1",
-                coroutinesTest  : "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2",
-                testShared      : project(':testShared')
+                junit         : "junit:junit:4.12",
+                mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
+                mockitoInline : "org.mockito:mockito-inline:2.28.2",
+                koinTest      : "org.koin:koin-test:2.0.1",
+                coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2",
+                kotlinTest    : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
+                testShared    : project(':testShared')
+
         ]
 
         androidxTestLibs = [
