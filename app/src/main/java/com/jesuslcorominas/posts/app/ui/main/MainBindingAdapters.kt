@@ -31,7 +31,7 @@ fun TextView.setError(e: Throwable) {
 }
 
 @BindingAdapter("thumbnail")
-fun ImageView.loadThumbnail(postId: Int?) {
+fun ImageView.setThumbnail(postId: Int?) {
     if (postId != null) {
         loadUrl(String.format(Post.THUMBNAIL_URL, postId))
     } else {

@@ -2,7 +2,7 @@ package com.jesuslcorominas.posts.app.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.jesuslcorominas.posts.app.ui.common.BaseViewModel
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
 import com.jesuslcorominas.posts.domain.Post
@@ -14,21 +14,12 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
+class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel() {
 
     private val disposables = CompositeDisposable()
 
     private val _items: MutableLiveData<List<Post>> = MutableLiveData()
     val items: LiveData<List<Post>> get() = _items
-
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
-    val loading: LiveData<Boolean> get() = _loading
-
-    private val _hasError: MutableLiveData<Boolean> = MutableLiveData()
-    val hasError: LiveData<Boolean> get() = _hasError
-
-    private val _error: MutableLiveData<Throwable> = MutableLiveData()
-    val error: LiveData<Throwable> get() = _error
 
     init {
         getPosts()
@@ -78,15 +69,5 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
         super.onCleared()
 
         disposables.clear()
-    }
-
-    private fun hideError() {
-        _hasError.value = false
-        _error.value = Exception()
-    }
-
-    private fun showError(e: Throwable) {
-        _error.value = e
-        _hasError.value = true
     }
 }
