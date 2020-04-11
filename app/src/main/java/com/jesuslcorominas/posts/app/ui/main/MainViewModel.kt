@@ -70,7 +70,7 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
 
     fun onPostClicked(post: Post) {
         with(post) {
-            Timber.i("Post \"${title}\" seleccionado con id ${id}")
+            Timber.i("Post \"$title\" seleccionado con id $id")
         }
     }
 

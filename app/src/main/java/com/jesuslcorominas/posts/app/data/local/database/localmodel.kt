@@ -3,7 +3,7 @@ package com.jesuslcorominas.posts.app.data.local.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity()
+@Entity
 data class Post(
     @PrimaryKey
     val id: Int,
