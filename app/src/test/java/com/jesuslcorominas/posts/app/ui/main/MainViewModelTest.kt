@@ -6,14 +6,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 
 class MainViewModelTest {
 
     private val getPostUseCase: GetPostUseCase = mock()
-    
+
     private val mainViewModel = MainViewModel(getPostUseCase)
 
     @Test
@@ -27,7 +26,12 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `when getPosts fail error should not be null`() {
+    fun `while getPost is executing loading should be true`() {
+        assertTrue(mainViewModel.loading.value!!)
+    }
+
+    @Test
+    fun `when getPosts fail hasError should be true`() {
         whenever(getPostUseCase.getPosts()).thenReturn(Single.create {
             it.onError(
                 ConnectionException()
@@ -36,6 +40,6 @@ class MainViewModelTest {
 
         getPostUseCase.getPosts()
 
-        assertNotNull(mainViewModel.error.value)
+        assertNotNull(mainViewModel.hasError.value)
     }
 }

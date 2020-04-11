@@ -9,6 +9,7 @@
             name="viewmodel"
             type="com.jesuslcorominas.posts.app.ui.main.MainViewModel" />
 
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +22,51 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_normal"
+            android:visibility="@{viewmodel.items.size() > 0 ? View.VISIBLE : View.GONE}"
             app:items="@{viewmodel.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_post" />
+            tools:listitem="@layout/item_post"
+            tools:visibility="gone" />
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{viewmodel.hasError ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_sad"
+                app:tint="@color/light_grey"
+                tools:ignore="ContentDescription" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:error="@{viewmodel.error}"
+                tools:text="@string/get_post_error_message" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

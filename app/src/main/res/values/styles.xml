@@ -8,23 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Error" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="Item" parent="TextAppearance.AppCompat.Body1">
-
-
         <item name="android:padding">@dimen/margin_normal</item>
     </style>
 
     <style name="Item.Title">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_large</item>
         <item name="android:textColor">@color/dark_grey</item>
     </style>
 
     <style name="Item.Content">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:maxLines">3</item>
     </style>
 
 </resources>
