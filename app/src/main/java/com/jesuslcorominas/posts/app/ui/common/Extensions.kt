@@ -2,11 +2,16 @@ package com.jesuslcorominas.posts.app.ui.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jesuslcorominas.posts.domain.Post
+import com.squareup.picasso.Picasso
 import kotlin.properties.Delegates
 
 inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffUtil(
@@ -33,3 +38,14 @@ fun <T : ViewDataBinding> ViewGroup.bindingInflate(
     attachToRoot: Boolean = true
 ): T =
     DataBindingUtil.inflate(LayoutInflater.from(context), layoutRes, this, attachToRoot)
+
+fun TextView.setResourceText(@StringRes stringRes: Int) {
+    text = context.getString(stringRes)
+}
+
+fun ImageView.loadUrl(url: String) {
+    Picasso.get()
+        .load(url)
+        .into(this)
+}
+
