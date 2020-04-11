@@ -1,6 +1,6 @@
 package com.jesuslcorominas.posts.app.di
 
-import com.jesuslcorominas.posts.app.ui.main.MainActivity
+import com.jesuslcorominas.posts.app.ui.main.MainFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,5 +11,5 @@ import javax.inject.Singleton
 )
 interface ApplicationComponent {
 
-    fun inject(mainActivity: MainActivity)
+    fun inject(mainFragment: MainFragment)
 }
