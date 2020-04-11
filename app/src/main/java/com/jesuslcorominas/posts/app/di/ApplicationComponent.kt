@@ -1,5 +1,6 @@
 package com.jesuslcorominas.posts.app.di
 
+import com.jesuslcorominas.posts.app.ui.detail.DetailFragment
 import com.jesuslcorominas.posts.app.ui.main.MainFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -12,4 +13,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun inject(mainFragment: MainFragment)
+
+    fun inject(detailFragment: DetailFragment)
 }
