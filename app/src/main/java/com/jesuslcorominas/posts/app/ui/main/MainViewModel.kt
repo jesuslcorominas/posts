@@ -34,7 +34,7 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
         getPosts()
     }
 
-    private fun getPosts() {
+    fun getPosts() {
         _loading.value = true
         hideError()
 
