@@ -12,14 +12,11 @@ class PostRepository(
 
     // TODO hacer reactivo
     fun getPosts(): Single<List<Post>> {
-//        postLocalDatasource.isEmpty().if
-//
 //        if (postLocalDatasource.isEmpty()) {
-//            postRemoteDatasource.getPosts().subscribe { posts, error ->
 //                postLocalDatasource.savePosts(posts)
-//            }
 //        }
 
-        return postLocalDatasource.getPosts()
+//        return postLocalDatasource.getPosts()
+        return postRemoteDatasource.getPosts()
     }
 }
