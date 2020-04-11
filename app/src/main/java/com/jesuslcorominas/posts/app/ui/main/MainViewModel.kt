@@ -21,14 +21,23 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
     private val _items: MutableLiveData<List<Post>> = MutableLiveData()
     val items: LiveData<List<Post>> get() = _items
 
-    private val _error: MutableLiveData<String> = MutableLiveData()
-    val error: LiveData<String> get() = _error;
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _hasError: MutableLiveData<Boolean> = MutableLiveData()
+    val hasError: LiveData<Boolean> get() = _hasError
+
+    private val _error: MutableLiveData<Throwable> = MutableLiveData()
+    val error: LiveData<Throwable> get() = _error
 
     init {
         getPosts()
     }
 
     private fun getPosts() {
+        _loading.value = true
+        hideError()
+
         disposables.add(
             getPostUseCase.getPosts()
                 .subscribeOn(Schedulers.io())
@@ -36,16 +45,24 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
                 .subscribeWith(object : DisposableSingleObserver<List<Post>>() {
                     override fun onSuccess(t: List<Post>) {
                         _items.value = t
+                        _loading.value = false
                     }
 
                     override fun onError(e: Throwable) {
                         when (e) {
-                            is ConnectionException -> _error.value = "Error de conexion"
-                            is ServerException -> _error.value = "Error del servidor"
-                            is InvalidResponseException -> _error.value =
-                                "No se han obtenido resultados"
-                            else -> _error.value = "Error desconocido"
+                            is ConnectionException -> Timber.e(e, "Error de conexion")
+                            is ServerException -> Timber.e(
+                                e, "Error del servidor: ${e.code} : ${e.message}"
+                            )
+                            is InvalidResponseException -> Timber.e(
+                                e,
+                                "Respuesta del servidor no valida"
+                            )
+                            else -> Timber.e(e, "Error desconocido")
                         }
+
+                        showError(e)
+                        _loading.value = false
                     }
                 })
         )
@@ -63,4 +80,13 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : ViewModel() {
         disposables.clear()
     }
 
+    private fun hideError() {
+        _hasError.value = false
+        _error.value = Exception()
+    }
+
+    private fun showError(e: Throwable) {
+        _error.value = e
+        _hasError.value = true
+    }
 }
