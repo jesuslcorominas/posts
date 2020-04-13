@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.ui.common.loadUrl
+import com.jesuslcorominas.posts.domain.Author
 import com.jesuslcorominas.posts.domain.Comment
 import com.jesuslcorominas.posts.domain.Post
 
@@ -35,6 +36,17 @@ fun TextView.setCommentsCount(commentsCount: Int?) {
         }
     } else {
         text = context.getString(R.string.comments_count, 0)
+    }
+}
+
+@BindingAdapter("author")
+fun TextView.setAuthor(author: Author?) {
+    if (author != null) {
+        text = with(author) {
+            "$name ($email)"
+        }
+    } else {
+        text = ""
     }
 }
 

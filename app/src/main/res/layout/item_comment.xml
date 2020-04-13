@@ -29,7 +29,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
-            style="@style/Item.Title"
+            style="@style/ItemPost.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{comment.name}"
@@ -41,7 +41,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewBody"
-            style="@style/Item.Content"
+            style="@style/ItemPost.Content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{comment.body}"

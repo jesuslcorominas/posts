@@ -19,6 +19,8 @@ class DetailFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    private lateinit var adapter: CommentAdapter
+
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -36,9 +38,13 @@ class DetailFragment : BaseFragment() {
         val viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 
+        adapter = CommentAdapter()
+
         binding?.apply {
             viewmodel = viewModel
             lifecycleOwner = this@DetailFragment
+
+            recyclerViewComments.adapter = adapter
         }
 
         return binding?.root
