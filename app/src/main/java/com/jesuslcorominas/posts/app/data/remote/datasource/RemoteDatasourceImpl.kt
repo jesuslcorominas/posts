@@ -2,7 +2,7 @@ package com.jesuslcorominas.posts.app.data.remote.datasource
 
 import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
-import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
+import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
 import com.jesuslcorominas.posts.domain.ServerException
@@ -10,7 +10,7 @@ import io.reactivex.Single
 import java.io.IOException
 import com.jesuslcorominas.posts.domain.Post as DomainPost
 
-class PostRemoteDatasourceImpl(private val remoteService: RemoteService) : PostRemoteDatasource {
+class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDatasource {
 
     override fun getPosts(): Single<List<DomainPost>> {
         return Single.create { emitter ->
@@ -31,4 +31,10 @@ class PostRemoteDatasourceImpl(private val remoteService: RemoteService) : PostR
             }
         }
     }
+
+    override fun getAuthorDetail() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun
 }

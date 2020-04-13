@@ -12,11 +12,14 @@ import com.jesuslcorominas.posts.usecases.GetPostUseCase
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val getPostUseCase: GetPostUseCase) : ViewModelProvider.Factory {
 
-    // TODO hay que pasar el id
+    var postId: Int? = null
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(getPostUseCase) as T
-            modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(0) as T
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(
+                postId ?: -1
+            ) as T
             else -> throw IllegalArgumentException("ViewModel ${modelClass.name} not implemented in this factory")
         }
     }

@@ -3,6 +3,7 @@ package com.jesuslcorominas.posts.app.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jesuslcorominas.posts.app.ui.common.BaseViewModel
+import com.jesuslcorominas.posts.app.ui.common.Event
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
 import com.jesuslcorominas.posts.domain.Post
@@ -20,6 +21,9 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel(
 
     private val _items: MutableLiveData<List<Post>> = MutableLiveData()
     val items: LiveData<List<Post>> get() = _items
+
+    private val _navigateToDetail: MutableLiveData<Event<Int>> = MutableLiveData()
+    val navigateToDetail: LiveData<Event<Int>> get() = _navigateToDetail
 
     init {
         getPosts()
@@ -62,6 +66,8 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel(
     fun onPostClicked(post: Post) {
         with(post) {
             Timber.i("Post \"$title\" seleccionado con id $id")
+
+            _navigateToDetail.value = Event(id)
         }
     }
 

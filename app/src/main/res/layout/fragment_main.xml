@@ -18,14 +18,15 @@
         tools:context=".ui.main.MainFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewItems"
-            android:layout_width="match_parent"
+            android:id="@+id/recyclerViewPosts"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_normal"
             android:visibility="@{viewmodel.items.size() > 0 ? View.VISIBLE : View.GONE}"
             app:items="@{viewmodel.items}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_post"
             tools:visibility="gone" />
@@ -59,7 +60,7 @@
                 android:layout_height="96dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_sad"
-                app:tint="@color/light_grey"
+                app:tint="@color/grey"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.AppCompatTextView

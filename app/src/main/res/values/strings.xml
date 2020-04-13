@@ -3,4 +3,7 @@
 
     <string name="get_post_error_message">Error getting posts.\nPlease, try again later.</string>
     <string name="unknown_error_message">Unknown error getting posts.\nPlease, try again later.</string>
+
+    <string name="one_comment_count">1 Comment</string>
+    <string name="comments_count">%1d Comments</string>
 </resources>

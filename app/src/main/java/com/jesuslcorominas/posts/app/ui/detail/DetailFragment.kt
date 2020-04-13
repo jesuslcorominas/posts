@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.databinding.FragmentDetailBinding
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
@@ -18,6 +19,8 @@ class DetailFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    private val args: DetailFragmentArgs by navArgs()
+
     override fun onCreateView(
         applicationComponent: ApplicationComponent,
         inflater: LayoutInflater,
@@ -29,6 +32,7 @@ class DetailFragment : BaseFragment() {
         val binding: FragmentDetailBinding? =
             container?.bindingInflate(R.layout.fragment_detail, false)
 
+        viewModelFactory.postId = args.id
         val viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 

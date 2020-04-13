@@ -31,4 +31,9 @@
         <item name="android:maxLines">3</item>
     </style>
 
+    <style name="Item.Author">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+        <item name="android:textColor">@color/xlight_grey</item>
+    </style>
+
 </resources>

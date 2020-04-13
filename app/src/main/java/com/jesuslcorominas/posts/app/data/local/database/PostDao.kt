@@ -1,9 +1,6 @@
 package com.jesuslcorominas.posts.app.data.local.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PostDao {
@@ -14,6 +11,13 @@ interface PostDao {
     @Query("SELECT * from Post")
     fun getAll(): List<Post>
 
+    @Update
+    fun updatePost(post: Post)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertPosts(posts: List<Post>)
+
+    @Transaction
+    @Query("SELECT * FROM Post where id = :postId")
+    fun getPostWithComments(postId: Int): PostWithComments
 }

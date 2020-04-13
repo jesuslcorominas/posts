@@ -3,7 +3,7 @@ package com.jesuslcorominas.posts.app.data.remote.datasource
 import com.jesuslcorominas.posts.app.data.remote.service.toRemotePost
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteApi
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
-import com.jesuslcorominas.posts.data.source.PostRemoteDatasource
+import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
 import com.jesuslcorominas.posts.testshared.mockedPost
@@ -19,11 +19,11 @@ import com.jesuslcorominas.posts.app.data.remote.service.Post as RemotePost
 import com.jesuslcorominas.posts.domain.Post as DomainPost
 
 
-class PostRemoteDatasourceTest {
+class RemoteDatasourceTest {
 
     private val remoteService: RemoteService = mock()
 
-    private val postRemoteDatasource: PostRemoteDatasource = PostRemoteDatasourceImpl(remoteService)
+    private val remoteDatasource: RemoteDatasource = RemoteDatasourceImpl(remoteService)
 
     @Before
     fun setUp() {
@@ -43,7 +43,7 @@ class PostRemoteDatasourceTest {
             )
         )
 
-        val testObserver: TestObserver<List<DomainPost>> = postRemoteDatasource.getPosts().test()
+        val testObserver: TestObserver<List<DomainPost>> = remoteDatasource.getPosts().test()
         testObserver.assertValue { it == mockedRemotePosts }
 
         testObserver.dispose()
@@ -53,7 +53,7 @@ class PostRemoteDatasourceTest {
     fun `if getPosts fails ConnectionException must be thrown`() {
         whenever(remoteService.remoteApi().getPosts().execute()).thenThrow(IOException())
 
-        val testObserver: TestObserver<List<DomainPost>> = postRemoteDatasource.getPosts().test()
+        val testObserver: TestObserver<List<DomainPost>> = remoteDatasource.getPosts().test()
         testObserver.assertError(ConnectionException::class.java)
 
         testObserver.dispose()
@@ -80,7 +80,7 @@ class PostRemoteDatasourceTest {
                 Response.success(null)
             )
 
-        val testObserver: TestObserver<List<DomainPost>> = postRemoteDatasource.getPosts().test()
+        val testObserver: TestObserver<List<DomainPost>> = remoteDatasource.getPosts().test()
         testObserver.assertError(InvalidResponseException::class.java)
 
         testObserver.dispose()

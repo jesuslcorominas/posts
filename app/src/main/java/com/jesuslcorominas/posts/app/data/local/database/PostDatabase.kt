@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Post::class], version = 1)
+@Database(entities = [Post::class, Author::class, Comment::class], version = 1)
 abstract class PostDatabase : RoomDatabase() {
 
     companion object {
