@@ -1,21 +1,18 @@
-package com.jesuslcorominas.posts.app.data.local.database
+package com.jesuslcorominas.posts.app.data.local.database.dao
 
 import androidx.room.*
+import com.jesuslcorominas.posts.app.data.local.database.Post
+import com.jesuslcorominas.posts.app.data.local.database.PostWithComments
 
 @Dao
-interface PostDao {
-
-    @Query("SELECT count(id) FROM Post")
-    fun postCount(): Int
+interface PostDao :
+    AbstractDao<Post> {
 
     @Query("SELECT * from Post")
     fun getAll(): List<Post>
 
     @Update
     fun updatePost(post: Post)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPosts(posts: List<Post>)
 
     @Transaction
     @Query("SELECT * FROM Post where id = :postId")

@@ -1,37 +1,56 @@
 package com.jesuslcorominas.posts.app.data.local.datasource
 
-import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
-import com.jesuslcorominas.posts.app.data.local.database.toDbPost
-import com.jesuslcorominas.posts.app.data.local.database.toDomainPost
+import com.jesuslcorominas.posts.app.data.local.database.*
 import com.jesuslcorominas.posts.data.source.LocalDatasource
+import com.jesuslcorominas.posts.domain.Author
+import com.jesuslcorominas.posts.domain.Comment
 import com.jesuslcorominas.posts.domain.Post
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
+import timber.log.Timber
 
 class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasource {
 
-    override fun isEmpty(): Single<Boolean> {
-        val isEmpty = postDatabase.postDao().postCount() == 0
-
-        return Single.create { emitter ->
-            emitter.onSuccess(isEmpty)
-        }
-
-    }
-
-    override fun getPosts(): Single<List<Post>> {
-        val storedPosts: List<Post> = postDatabase.postDao().getAll().map { it.toDomainPost() }
-
-        return Single.create { emitter ->
-            emitter.onSuccess(storedPosts)
+    override fun getPosts(): Maybe<List<Post>> {
+        return Maybe.create { emitter ->
+            val storedPosts: List<Post> = postDatabase.postDao().getAll().map { it.toDomainPost() }
+            if (storedPosts.isEmpty()) {
+                emitter.onComplete()
+            } else {
+                emitter.onSuccess(storedPosts)
+            }
         }
     }
 
     override fun savePosts(posts: List<Post>): Completable {
-        postDatabase.postDao().insertPosts(posts.map { it.toDbPost() })
+        try {
+            postDatabase.runInTransaction {
+                postDatabase.postDao().insert(posts.map { it.toDbPost() })
+
+                val authors: Set<Author> = HashSet()
+                val comments: Set<Comment> = HashSet()
+                posts.forEach { post ->
+                    post.author?.let { author ->
+                        authors.plus(author)
+                    }
+
+                    post.comments?.let { comments ->
+                        comments.plus(comments.iterator())
+                    }
+                }
+                postDatabase.authorDao().insert(authors.toList().map { it.toDbAuthor() })
+                postDatabase.commentDao().insert(comments.toList().map { it.toDbComment() })
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Error al insertar post en transaccion")
+            return Completable.error(e)
+        }
 
         return Completable.complete()
     }
 
-
+    override fun getPostDetail(postId: Int): Single<Post> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

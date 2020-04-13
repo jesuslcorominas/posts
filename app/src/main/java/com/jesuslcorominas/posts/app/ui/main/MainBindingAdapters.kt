@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.ui.common.loadUrl
 import com.jesuslcorominas.posts.app.ui.common.setResourceText
-import com.jesuslcorominas.posts.domain.ConnectionException
-import com.jesuslcorominas.posts.domain.InvalidResponseException
-import com.jesuslcorominas.posts.domain.Post
-import com.jesuslcorominas.posts.domain.ServerException
+import com.jesuslcorominas.posts.domain.*
 
 
 @BindingAdapter("items")
@@ -26,6 +23,7 @@ fun TextView.setError(e: Throwable) {
         is ConnectionException -> setResourceText(R.string.get_post_error_message)
         is InvalidResponseException -> setResourceText(R.string.get_post_error_message)
         is ServerException -> setResourceText(R.string.get_post_error_message)
+        is DatabaseEmptyException -> setResourceText(R.string.get_post_error_message)
         else -> setResourceText(R.string.unknown_error_message)
     }
 }

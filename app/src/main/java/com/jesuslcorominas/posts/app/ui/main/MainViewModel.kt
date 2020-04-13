@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jesuslcorominas.posts.app.ui.common.BaseViewModel
 import com.jesuslcorominas.posts.app.ui.common.Event
-import com.jesuslcorominas.posts.domain.ConnectionException
-import com.jesuslcorominas.posts.domain.InvalidResponseException
-import com.jesuslcorominas.posts.domain.Post
-import com.jesuslcorominas.posts.domain.ServerException
+import com.jesuslcorominas.posts.domain.*
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -53,6 +50,7 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel(
                                 e,
                                 "Respuesta del servidor no valida"
                             )
+                            is DatabaseEmptyException -> Timber.e(e, "Base de datos vacia")
                             else -> Timber.e(e, "Error desconocido")
                         }
 

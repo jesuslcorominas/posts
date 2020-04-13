@@ -7,7 +7,5 @@ interface RemoteDatasource {
 
     fun getPosts(): Single<List<Post>>
 
-    fun getAuthorDetail(id: Int)
-
-    fun getComments(postId: Int)
+    fun getPostDetail(postId: Int): Single<Post>
 }

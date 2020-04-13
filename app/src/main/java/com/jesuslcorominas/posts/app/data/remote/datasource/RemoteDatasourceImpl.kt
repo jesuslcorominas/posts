@@ -1,7 +1,8 @@
 package com.jesuslcorominas.posts.app.data.remote.datasource
 
-import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
+
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
@@ -32,9 +33,8 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
         }
     }
 
-    override fun getAuthorDetail() {
+    override fun getPostDetail(postId: Int): Single<DomainPost> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun
 }
