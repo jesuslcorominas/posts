@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_large"
                 app:error="@{viewmodel.error}"
-                tools:text="@string/get_post_error_message" />
+                tools:text="@string/get_posts_error_message" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:layout_width="48dp"

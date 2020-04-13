@@ -35,8 +35,8 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Post>>() {
-                    override fun onSuccess(t: List<Post>) {
-                        _items.value = t
+                    override fun onSuccess(items: List<Post>) {
+                        _items.value = items
                         _loading.value = false
                     }
 

@@ -1,6 +1,7 @@
 package com.jesuslcorominas.posts.app.di
 
 import com.jesuslcorominas.posts.app.ui.common.ViewModelFactory
+import com.jesuslcorominas.posts.usecases.GetPostDetailUseCase
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 
 import dagger.Module
@@ -12,6 +13,9 @@ class FactoriesModule {
 
     @Singleton
     @Provides
-    fun providesViewModelFactory(getPostUseCase: GetPostUseCase) = ViewModelFactory(getPostUseCase)
+    fun providesViewModelFactory(
+        getPostUseCase: GetPostUseCase,
+        getPostDetailUseCase: GetPostDetailUseCase
+    ) = ViewModelFactory(getPostUseCase, getPostDetailUseCase)
 
 }

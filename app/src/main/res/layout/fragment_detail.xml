@@ -15,83 +15,95 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         tools:context=".ui.detail.DetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <!-- region Post -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageViewPicture"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:picture="@{viewmodel.post.id}"
-                tools:src="@drawable/ic_photo" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewTitle"
-                style="@style/Item.Title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.post.title}"
-                app:layout_constraintBottom_toTopOf="@id/textViewAuthor"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageViewPicture"
-                tools:text="John Doe" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewAuthor"
-                style="@style/Item.Author"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.post.title}"
-                app:layout_constraintBottom_toTopOf="@id/textViewBody"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-                tools:text="John Doe" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewBody"
-                style="@style/Item.Content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.post.body}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewAuthor"
-                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus eget ipsum vitae viverra. Etiam nisl leo, sodales pellentesque semper at, commodo vel turpis." />
-            <!-- endregion -->
-
-            <!-- Region Comments -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewCommentsCount"
-                style="@style/Item.Title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.post.title}"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewBody"
-                tools:text="@string/one_comment_count" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewComments"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewmodel.post.comments.size() > 0 ? View.VISIBLE : View.GONE}"
-                app:items="@{viewmodel.post.comments}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="@{viewmodel.post == null ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewCommentsCount"
-                tools:listitem="@layout/item_comment"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
+                <!-- region Post -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageViewPicture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:picture="@{viewmodel.post.id}"
+                    tools:src="@drawable/ic_photo" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTitle"
+                    style="@style/Item.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.title}"
+                    app:layout_constraintBottom_toTopOf="@id/textViewAuthor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageViewPicture"
+                    tools:text="John Doe" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewAuthor"
+                    style="@style/Item.Author"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.title}"
+                    app:layout_constraintBottom_toTopOf="@id/textViewBody"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                    tools:text="John Doe" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewBody"
+                    style="@style/Item.Content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.body}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAuthor"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus eget ipsum vitae viverra. Etiam nisl leo, sodales pellentesque semper at, commodo vel turpis." />
+                <!-- endregion -->
+
+                <!-- Region Comments -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCommentsCount"
+                    style="@style/Item.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.title}"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewBody"
+                    tools:text="@string/one_comment_count" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewComments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.post.comments.size() > 0 ? View.VISIBLE : View.GONE}"
+                    app:items="@{viewmodel.post.comments}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCommentsCount"
+                    tools:listitem="@layout/item_comment"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -108,7 +120,7 @@
             <LinearLayout
                 android:id="@+id/linearLayoutError"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="@{viewmodel.hasError ? View.VISIBLE : View.GONE}"
@@ -116,7 +128,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="96dp"
@@ -132,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_large"
                     app:error="@{viewmodel.error}"
-                    tools:text="@string/get_post_error_message" />
+                    tools:text="@string/get_post_detail_error_message" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="48dp"
