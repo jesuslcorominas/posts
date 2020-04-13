@@ -56,6 +56,7 @@ allprojects {
                 okhttpLoginInterceptor: 'com.squareup.okhttp3:logging-interceptor:4.2.1',
                 retrofit              : "com.squareup.retrofit2:retrofit:2.7.1",
                 retrofitGsonConverter : "com.squareup.retrofit2:converter-gson:2.6.0",
+                retrofitRxJava        : "com.squareup.retrofit2:adapter-rxjava:2.8.1",
                 picasso               : "com.squareup.picasso:picasso:2.71828",
                 stetho                : "com.facebook.stetho:stetho:$stethoVersion",
                 stethoHttp            : "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
