@@ -30,13 +30,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone">
+                tools:visibility="visible">
                 <!-- region Post -->
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageViewPicture"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+                    android:background="@color/light_grey"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +49,7 @@
                     style="@style/Item.Title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.post.title}"
+                    android:text="@{viewmodel.post.author != null ? viewmodel.post.author.name : null}"
                     app:layout_constraintBottom_toTopOf="@id/textViewAuthor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -84,7 +85,7 @@
                     style="@style/Item.Title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.post.title}"
+                    app:comments_count="@{viewmodel.post.comments.size()}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewBody"
                     tools:text="@string/one_comment_count" />
@@ -128,7 +129,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
+                tools:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="96dp"

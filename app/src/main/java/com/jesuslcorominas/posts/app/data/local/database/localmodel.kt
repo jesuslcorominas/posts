@@ -10,8 +10,7 @@ data class Post(
     @PrimaryKey val id: Int,
     val userId: Int,
     val title: String,
-    val body: String,
-    val author: String?
+    val body: String
 )
 
 @Entity
@@ -30,8 +29,13 @@ data class Comment(
     val body: String
 )
 
-data class PostWithComments(
+data class PostDetail(
     @Embedded val post: Post,
+    @Relation(
+        parentColumn = "userId",
+        entityColumn = "id"
+    )
+    val author: Author?,
     @Relation(
         parentColumn = "id",
         entityColumn = "postId"

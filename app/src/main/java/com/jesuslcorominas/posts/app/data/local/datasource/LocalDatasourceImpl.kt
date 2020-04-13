@@ -12,14 +12,12 @@ import timber.log.Timber
 
 class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasource {
 
-    override fun getPosts(): Maybe<List<Post>> {
-        return Maybe.create { emitter ->
-            val storedPosts: List<Post> = postDatabase.postDao().getAll().map { it.toDomainPost() }
-            if (storedPosts.isEmpty()) {
-                emitter.onComplete()
-            } else {
-                emitter.onSuccess(storedPosts)
-            }
+    override fun getPosts(): Maybe<List<Post>> = Maybe.create { emitter ->
+        val storedPosts: List<Post> = postDatabase.postDao().getAll().map { it.toDomainPost() }
+        if (storedPosts.isEmpty()) {
+            emitter.onComplete()
+        } else {
+            emitter.onSuccess(storedPosts)
         }
     }
 
@@ -42,15 +40,15 @@ class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasou
                 postDatabase.authorDao().insert(authors.toList().map { it.toDbAuthor() })
                 postDatabase.commentDao().insert(comments.toList().map { it.toDbComment() })
             }
+
+            return Completable.complete()
         } catch (e: Exception) {
             Timber.e(e, "Error al insertar post en transaccion")
             return Completable.error(e)
         }
-
-        return Completable.complete()
     }
 
-    override fun getPostDetail(postId: Int): Single<Post> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getPostDetail(postId: Int): Single<Post> = Single.create { emitter ->
+        emitter.onSuccess(postDatabase.postDao().getPostWithComments(postId).toDomainPost())
     }
 }

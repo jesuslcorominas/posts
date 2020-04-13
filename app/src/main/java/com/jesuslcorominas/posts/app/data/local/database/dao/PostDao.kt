@@ -2,7 +2,7 @@ package com.jesuslcorominas.posts.app.data.local.database.dao
 
 import androidx.room.*
 import com.jesuslcorominas.posts.app.data.local.database.Post
-import com.jesuslcorominas.posts.app.data.local.database.PostWithComments
+import com.jesuslcorominas.posts.app.data.local.database.PostDetail
 
 @Dao
 interface PostDao :
@@ -16,5 +16,5 @@ interface PostDao :
 
     @Transaction
     @Query("SELECT * FROM Post where id = :postId")
-    fun getPostWithComments(postId: Int): PostWithComments
+    fun getPostWithComments(postId: Int): PostDetail
 }

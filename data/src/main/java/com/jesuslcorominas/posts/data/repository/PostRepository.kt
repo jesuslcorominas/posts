@@ -24,13 +24,6 @@ class PostRepository(
 
 
     fun getPostDetail(postId: Int): Single<Post> {
-
-//        TODO(
-//            "siempre vamos a buscar el detalle al servidor por si ha habido " +
-//                    "actualizaciones. Una vez obtenido el remoto se guarda en local y siempre se " +
-//                    "devuelve luego el local"
-//        )
-
-        return Single.create { emitter -> emitter.onError(Exception()) }
+        return localDatasource.getPostDetail(postId)
     }
 }

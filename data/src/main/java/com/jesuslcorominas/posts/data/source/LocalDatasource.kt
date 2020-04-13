@@ -1,5 +1,6 @@
 package com.jesuslcorominas.posts.data.source
 
+import com.jesuslcorominas.posts.domain.Author
 import com.jesuslcorominas.posts.domain.Post
 import io.reactivex.Completable
 import io.reactivex.Maybe

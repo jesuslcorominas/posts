@@ -6,7 +6,7 @@ data class Post(
     val title: String,
     val body: String,
     val author: Author?,
-    val comments: List<Comment>?
+    val comments: List<Comment>
 ) {
     companion object {
         private const val THUMBNAIL_WIDTH: Int = 128
