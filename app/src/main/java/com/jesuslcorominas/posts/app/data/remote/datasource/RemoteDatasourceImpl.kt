@@ -2,6 +2,8 @@ package com.jesuslcorominas.posts.app.data.remote.datasource
 
 
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainAuthor
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainComment
 import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException
@@ -33,8 +35,50 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
         }
     }
 
-    override fun getPostDetail(postId: Int): Single<DomainPost> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getPostDetail(post: DomainPost): Single<DomainPost> {
+        return Single.create { emitter ->
+            try {
+                val getAuthorResponse = remoteService.remoteApi().getAuthor(post.userId).execute()
+                if (getAuthorResponse.isSuccessful) {
+                    val getAuthorBody = getAuthorResponse.body()
+                    if (getAuthorBody != null) {
+                        val author = getAuthorBody.toDomainAuthor()
 
+                        val getCommentsResponse =
+                            remoteService.remoteApi().getComments(post.id).execute()
+                        if (getCommentsResponse.isSuccessful) {
+                            val getCommentsBody = getCommentsResponse.body()
+                            if (getCommentsBody != null) {
+                                val comments = getCommentsBody.map { it.toDomainComment() }
+
+                                val postDetail = post.copy(author = author, comments = comments)
+                                emitter.onSuccess(postDetail)
+                            } else {
+                                emitter.onError(InvalidResponseException())
+                            }
+                        } else {
+                            emitter.onError(
+                                ServerException(
+                                    getCommentsResponse.code(),
+                                    getCommentsResponse.message()
+                                )
+                            )
+                            return@create
+                        }
+                    } else {
+                        emitter.onError(InvalidResponseException())
+                    }
+                } else {
+                    emitter.onError(
+                        ServerException(
+                            getAuthorResponse.code(),
+                            getAuthorResponse.message()
+                        )
+                    )
+                }
+            } catch (e: IOException) {
+                emitter.onError(ConnectionException())
+            }
+        }
+    }
 }

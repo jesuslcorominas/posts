@@ -22,8 +22,18 @@ class PostRepository(
                     }
             )
 
-
+    // TODO se puede devolver un postdetail sin todos los detail
+    // TODO hay que guardar la info del detail en bd o se consulta cada vez
+    //  es decir, se cachea el listado, pero el detalle tambien. El  detalle completo o solo
+    //  el autor. Los comentarios podrian cambiar con el tiempo
+    // TODO La pantalla de detalle, si no se ha entrado antes ese detalle estara vacia si no hay
+    //  conexion, no?
     fun getPostDetail(postId: Int): Single<Post> {
         return localDatasource.getPostDetail(postId)
+            .flatMap { post -> remoteDatasource.getPostDetail(post) }
+            .flatMap { post ->
+                localDatasource.savePosts(listOf(post))
+                    .andThen(localDatasource.getPostDetail(post.id))
+            }
     }
 }

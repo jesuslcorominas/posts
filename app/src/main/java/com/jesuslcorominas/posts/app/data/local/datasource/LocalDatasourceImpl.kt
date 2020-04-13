@@ -26,6 +26,8 @@ class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasou
             postDatabase.runInTransaction {
                 postDatabase.postDao().insert(posts.map { it.toDbPost() })
 
+                // TODO no esta insertando los relacionados
+
                 val authors: Set<Author> = HashSet()
                 val comments: Set<Comment> = HashSet()
                 posts.forEach { post ->
