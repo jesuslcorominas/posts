@@ -4,26 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.databinding.FragmentMainBinding
-import com.jesuslcorominas.posts.app.di.ApplicationComponent
-import com.jesuslcorominas.posts.app.ui.common.BaseFragment
 import com.jesuslcorominas.posts.app.ui.common.EventObserver
-import com.jesuslcorominas.posts.app.ui.common.ViewModelFactory
+import com.jesuslcorominas.posts.app.ui.common.applicationComponent
 import com.jesuslcorominas.posts.app.ui.common.bindingInflate
-import javax.inject.Inject
+import com.jesuslcorominas.posts.app.ui.common.getViewModel
 
-class MainFragment : BaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+class MainFragment : Fragment() {
 
     private lateinit var adapter: PostAdapter
 
     private lateinit var navController: NavController
+
+    private lateinit var component: MainComponent
+    private val viewModel: MainViewModel by lazy { getViewModel { component.mainViewModel } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,17 +30,14 @@ class MainFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        applicationComponent: ApplicationComponent,
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        applicationComponent.inject(this)
+        component = applicationComponent().plus(MainModule())
 
         val binding: FragmentMainBinding? =
             container?.bindingInflate(R.layout.fragment_main, false)
-
-        val viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         adapter = PostAdapter(viewModel::onPostClicked)
 

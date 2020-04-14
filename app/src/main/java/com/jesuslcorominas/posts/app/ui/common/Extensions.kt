@@ -8,10 +8,15 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jesuslcorominas.posts.app.App
+import com.jesuslcorominas.posts.app.di.ApplicationComponent
 import com.squareup.picasso.Picasso
-import timber.log.Timber
 import kotlin.properties.Delegates
 
 
@@ -49,5 +54,19 @@ fun ImageView.loadUrl(url: String) {
         .load(url)
         .into(this)
 }
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T : ViewModel> Fragment.getViewModel(crossinline factory: () -> T): T {
+
+    val vmFactory = object : ViewModelProvider.Factory {
+        override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
+    }
+
+    return ViewModelProvider(this, vmFactory).get()
+}
+
+fun Fragment.applicationComponent(): ApplicationComponent =
+    (activity?.application as App).appComponent
+
 
 
