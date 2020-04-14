@@ -27,15 +27,32 @@ class App : Application() {
             Timber.plant(DebugTree())
         }
 
-        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this)
 
+        configEmojiCompat()
+    private fun configEmojiCompat() {
+        val config: EmojiCompat.Config
+        // Use a downloadable font for EmojiCompat
         val fontRequest = FontRequest(
-            "com.example.fontprovider",
-            "com.example",
-            "emoji compat Font Query",
+            "com.google.android.gms.fonts",
+            "com.google.android.gms",
+            "Noto Color Emoji Compat",
             R.array.com_google_android_gms_fonts_certs
         )
-        val config = FontRequestEmojiCompatConfig(this, fontRequest)
+
+        config = FontRequestEmojiCompatConfig(applicationContext, fontRequest)
+            .setReplaceAll(true)
+            .registerInitCallback(object : EmojiCompat.InitCallback() {
+                override fun onInitialized() {
+                    Timber.i("EmojiCompat initialized")
+                }
+
+                override fun onFailed(throwable: Throwable?) {
+                    Timber.e(throwable, "EmojiCompat initialization failed")
+                }
+            })
+
+
         EmojiCompat.init(config)
     }
 }

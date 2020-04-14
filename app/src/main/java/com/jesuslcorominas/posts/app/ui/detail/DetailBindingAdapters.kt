@@ -3,6 +3,7 @@ package com.jesuslcorominas.posts.app.ui.detail
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.ui.common.loadUrl
@@ -48,6 +49,25 @@ fun TextView.setAuthor(author: Author?) {
     } else {
         text = ""
     }
+}
+
+@BindingAdapter("email")
+fun EmojiTextView.setEmail(email: String?) {
+    if (email != null) {
+        text = email.formatEmailWithEmojis()
+    } else {
+        text = null
+    }
+}
+
+private fun String.formatEmailWithEmojis(): String {
+    if (endsWith(".info")) {
+        return "$this  \u2139"
+    } else if (endsWith(".co.uk")) {
+        return "$this  \uD83C\uDDEC\uD83C\uDDE7"
+    }
+
+    return this
 }
 
 @BindingAdapter("avatar")
