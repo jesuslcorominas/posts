@@ -15,6 +15,7 @@ import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jesuslcorominas.posts.app.App
+import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
 import com.squareup.picasso.Picasso
 import kotlin.properties.Delegates
@@ -52,7 +53,9 @@ fun TextView.setResourceText(@StringRes stringRes: Int) {
 fun ImageView.loadUrl(url: String) {
     Picasso.get()
         .load(url)
+        .error(R.drawable.ic_photo)
         .into(this)
+
 }
 
 @Suppress("UNCHECKED_CAST")
