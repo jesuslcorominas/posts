@@ -49,7 +49,18 @@ class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasou
         }
     }
 
-    override fun getPostDetail(postId: Int): Single<Post> = Single.create { emitter ->
-        emitter.onSuccess(postDatabase.postDao().getPostWithComments(postId).toDomainPost())
+    override fun findPostById(postId: Int): Single<Post> =
+        Single.create { emitter ->
+            emitter.onSuccess(postDatabase.postDao().findPostById(postId).toDomainPost())
+        }
+
+
+    override fun getPostDetail(postId: Int): Maybe<Post> = Maybe.create { emitter ->
+        val post = postDatabase.postDao().getPostWithComments(postId)
+        if (post.author == null) {
+            emitter.onComplete()
+        } else {
+            emitter.onSuccess(post.toDomainPost())
+        }
     }
 }
