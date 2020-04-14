@@ -28,7 +28,7 @@ class RemoteDatasourceTest {
     @Before
     fun setUp() {
         val mockedRemoteApi: RemoteApi = mock()
-        whenever(remoteService.remoteApi()).thenReturn(mockedRemoteApi)
+        whenever(remoteService.api()).thenReturn(mockedRemoteApi)
 
         val mockedCall: Call<List<RemotePost>> = mock()
         whenever(mockedRemoteApi.getPosts()).thenReturn(mockedCall)
@@ -37,7 +37,7 @@ class RemoteDatasourceTest {
     @Test
     fun `getPosts should get remote posts`() {
         val mockedRemotePosts = listOf(mockedPost.copy(1))
-        whenever(remoteService.remoteApi().getPosts().execute()).thenReturn(
+        whenever(remoteService.api().getPosts().execute()).thenReturn(
             Response.success(
                 mockedRemotePosts.map { it.toRemotePost() }
             )
@@ -51,7 +51,7 @@ class RemoteDatasourceTest {
 
     @Test
     fun `if getPosts fails ConnectionException must be thrown`() {
-        whenever(remoteService.remoteApi().getPosts().execute()).thenThrow(IOException())
+        whenever(remoteService.api().getPosts().execute()).thenThrow(IOException())
 
         val testObserver: TestObserver<List<DomainPost>> = remoteDatasource.getPosts().test()
         testObserver.assertError(ConnectionException::class.java)
@@ -75,7 +75,7 @@ class RemoteDatasourceTest {
 
     @Test
     fun `if getPosts responses has no body InvalidResponseException must be emmited`() {
-        whenever(remoteService.remoteApi().getPosts().execute())
+        whenever(remoteService.api().getPosts().execute())
             .thenReturn(
                 Response.success(null)
             )
