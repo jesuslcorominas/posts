@@ -8,8 +8,12 @@ import com.facebook.stetho.Stetho
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
 import com.jesuslcorominas.posts.app.di.ApplicationModule
 import com.jesuslcorominas.posts.app.di.DaggerApplicationComponent
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.io.IOException
+import java.net.SocketException
 
 
 class App : Application() {
@@ -30,6 +34,9 @@ class App : Application() {
         Stetho.initializeWithDefaults(this)
 
         configEmojiCompat()
+        configRxErrorHandle()
+    }
+
     private fun configEmojiCompat() {
         val config: EmojiCompat.Config
         // Use a downloadable font for EmojiCompat
@@ -54,5 +61,26 @@ class App : Application() {
 
 
         EmojiCompat.init(config)
+    }
+
+    private fun configRxErrorHandle() {
+        RxJavaPlugins.setErrorHandler {
+            val message: String =
+                if ((it is IOException) || (it is SocketException)) {
+                    "irrelevant network problem or API that throws on cancellation"
+                } else if (it is InterruptedException) {
+                    "some blocking code was interrupted by a dispose call"
+                } else if ((it is NullPointerException) || (it is IllegalArgumentException)) {
+                    "that's likely a bug in the application"
+                } else if (it is IllegalStateException) {
+                    "that's a bug in RxJava or in a custom operator"
+                } else if (it is UndeliverableException) {
+                    "Undeliverable exception received, not sure what to do"
+                } else {
+                    "Unknow error"
+                }
+
+            Timber.e(it, message)
+        }
     }
 }
