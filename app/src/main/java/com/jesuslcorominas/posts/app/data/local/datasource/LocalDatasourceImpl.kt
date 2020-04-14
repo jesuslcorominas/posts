@@ -24,23 +24,22 @@ class LocalDatasourceImpl(private val postDatabase: PostDatabase) : LocalDatasou
     override fun savePosts(posts: List<Post>): Completable {
         try {
             postDatabase.runInTransaction {
-                postDatabase.postDao().insert(posts.map { it.toDbPost() })
+                val authors: MutableList<Author> = ArrayList()
+                val comments: MutableList<Comment> = ArrayList()
 
-                // TODO no esta insertando los relacionados
-
-                val authors: Set<Author> = HashSet()
-                val comments: Set<Comment> = HashSet()
-                posts.forEach { post ->
-                    post.author?.let { author ->
-                        authors.plus(author)
+                for (post: Post in posts) {
+                    val author = post.author
+                    if (author != null) {
+                        authors.add(author)
                     }
 
-                    post.comments?.let { comments ->
-                        comments.plus(comments.iterator())
-                    }
+                    val postComments = post.comments
+                    comments.addAll(postComments)
                 }
-                postDatabase.authorDao().insert(authors.toList().map { it.toDbAuthor() })
-                postDatabase.commentDao().insert(comments.toList().map { it.toDbComment() })
+
+                postDatabase.postDao().insert(posts.map { it.toDbPost() })
+                postDatabase.authorDao().insert(authors.map { it.toDbAuthor() })
+                postDatabase.commentDao().insert(comments.map { it.toDbComment() })
             }
 
             return Completable.complete()
