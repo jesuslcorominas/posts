@@ -80,7 +80,7 @@ class App : Application() {
                     "Unknow error"
                 }
 
-            Timber.e(it, message)
+            Timber.e(it, "Recibido error de Rx: $message")
         }
     }
 }
