@@ -30,5 +30,5 @@ class RemoteService(baseUrl: String) {
             )
         }
 
-    fun api() = remoteApi
+    fun remoteApi() = remoteApi
 }

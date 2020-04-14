@@ -1,13 +1,15 @@
 package com.jesuslcorominas.posts.app.data.remote.datasource
 
 
-import com.jesuslcorominas.posts.app.data.remote.service.*
+import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainAuthor
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainComment
+import com.jesuslcorominas.posts.app.data.remote.service.toDomainPost
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.InvalidResponseException
 import com.jesuslcorominas.posts.domain.ServerException
 import io.reactivex.Single
-import retrofit2.Response
 import java.io.IOException
 import com.jesuslcorominas.posts.domain.Post as DomainPost
 
@@ -16,7 +18,7 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
     override fun getPosts(): Single<List<DomainPost>> {
         return Single.create { emitter ->
             try {
-                val response = remoteService.api().getPosts().execute()
+                val response = remoteService.remoteApi().getPosts().execute()
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {
@@ -25,7 +27,7 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
                         emitter.onError(InvalidResponseException())
                     }
                 } else {
-                    emitter.onError(response.serverException())
+                    emitter.onError(ServerException(response.code(), response.message()))
                 }
             } catch (e: IOException) {
                 emitter.onError(ConnectionException())
@@ -36,35 +38,47 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
     override fun getPostDetail(post: DomainPost): Single<DomainPost> {
         return Single.create { emitter ->
             try {
-                val authorResponse = remoteService.api().getAuthor(post.userId).execute()
-                if (authorResponse.isSuccessful) {
-                    val author = authorResponse.body()
-                    if (author != null) {
-                        val commentsResponse = remoteService.api().getComments(post.id).execute()
-                        emitter.onSuccess(detailedPost(post, author, getComments(commentsResponse)))
+                val getAuthorResponse = remoteService.remoteApi().getAuthor(post.userId).execute()
+                if (getAuthorResponse.isSuccessful) {
+                    val getAuthorBody = getAuthorResponse.body()
+                    if (getAuthorBody != null) {
+                        val author = getAuthorBody.toDomainAuthor()
+
+                        val getCommentsResponse =
+                            remoteService.remoteApi().getComments(post.id).execute()
+                        if (getCommentsResponse.isSuccessful) {
+                            val getCommentsBody = getCommentsResponse.body()
+                            if (getCommentsBody != null) {
+                                val comments = getCommentsBody.map { it.toDomainComment() }
+
+                                val postDetail = post.copy(author = author, comments = comments)
+                                emitter.onSuccess(postDetail)
+                            } else {
+                                emitter.onError(InvalidResponseException())
+                            }
+                        } else {
+                            emitter.onError(
+                                ServerException(
+                                    getCommentsResponse.code(),
+                                    getCommentsResponse.message()
+                                )
+                            )
+                            return@create
+                        }
                     } else {
                         emitter.onError(InvalidResponseException())
                     }
                 } else {
-                    emitter.onError(authorResponse.serverException())
+                    emitter.onError(
+                        ServerException(
+                            getAuthorResponse.code(),
+                            getAuthorResponse.message()
+                        )
+                    )
                 }
             } catch (e: IOException) {
                 emitter.onError(ConnectionException())
             }
         }
     }
-
-    private fun getComments(response: Response<List<Comment>>): List<Comment> =
-        if (response.isSuccessful && response.body() != null) {
-            response.body() as List<Comment>
-        } else {
-            ArrayList()
-        }
-
-    private fun detailedPost(post: DomainPost, author: Author, comments: List<Comment>) =
-        post.copy(
-            author = author.toDomainAuthor(),
-            comments = comments.map { it.toDomainComment() })
-
-    private fun <T : Any> Response<T>.serverException() = ServerException(code(), message())
 }
