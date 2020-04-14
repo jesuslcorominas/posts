@@ -1,6 +1,8 @@
 package com.jesuslcorominas.posts.app.data.local.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
 import com.jesuslcorominas.posts.app.data.local.database.Post
 import com.jesuslcorominas.posts.app.data.local.database.PostDetail
 
@@ -11,8 +13,8 @@ interface PostDao :
     @Query("SELECT * from Post")
     fun getAll(): List<Post>
 
-    @Update
-    fun updatePost(post: Post)
+    @Query("SELECT * from Post where id = :postId")
+    fun findPostById(postId: Int): Post
 
     @Transaction
     @Query("SELECT * FROM Post where id = :postId")

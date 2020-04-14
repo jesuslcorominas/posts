@@ -7,6 +7,6 @@ import androidx.room.OnConflictStrategy
 @Dao
 interface AbstractDao<T> {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(items: List<T>)
 }
