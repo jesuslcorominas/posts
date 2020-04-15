@@ -5,7 +5,6 @@ data class Post(val id: Int, val userId: Int, val title: String, val body: Strin
 data class Author(
     val id: Int,
     val name: String,
-    val userName: String,
     val email: String
 )
 

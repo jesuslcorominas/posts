@@ -2,16 +2,19 @@ package com.jesuslcorominas.posts.app.di
 
 import android.content.Context
 import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
-import com.jesuslcorominas.posts.app.data.local.datasource.PostLocalDatasourceImpl
-import com.jesuslcorominas.posts.app.data.remote.datasource.PostRemoteDatasourceImpl
+import com.jesuslcorominas.posts.app.data.local.datasource.LocalDatasourceImpl
+import com.jesuslcorominas.posts.app.data.remote.datasource.RemoteDatasourceImpl
 import com.jesuslcorominas.posts.app.data.remote.service.RemoteService
+import com.jesuslcorominas.posts.data.repository.PostRepository
+import com.jesuslcorominas.posts.data.source.LocalDatasource
+import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class DatasourcesModule() {
+class DataModule {
 
     companion object {
         const val NAME_BASE_URL = "base_url"
@@ -34,11 +37,18 @@ class DatasourcesModule() {
 
     @Singleton
     @Provides
-    fun providesPostLocalDatasource(postDatabase: PostDatabase) =
-        PostLocalDatasourceImpl(postDatabase)
+    fun providesPostLocalDatasource(postDatabase: PostDatabase): LocalDatasource =
+        LocalDatasourceImpl(postDatabase)
 
     @Singleton
     @Provides
-    fun providesPostRemoteDatasource(remoteService: RemoteService) =
-        PostRemoteDatasourceImpl(remoteService)
+    fun providesPostRemoteDatasource(remoteService: RemoteService): RemoteDatasource =
+        RemoteDatasourceImpl(remoteService)
+
+    @Singleton
+    @Provides
+    fun providesPostRepository(
+        localDatasource: LocalDatasource,
+        remoteDatasource: RemoteDatasource
+    ) = PostRepository(localDatasource, remoteDatasource)
 }

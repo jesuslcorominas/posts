@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.jesuslcorominas.posts.app.ui.detail.DetailViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.detail.DetailFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewmodel.post == null ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+                <!-- region Post -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageViewPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:picture="@{viewmodel.post.id}"
+                    tools:src="@drawable/ic_photo" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTitle"
+                    style="@style/Post.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.title}"
+                    app:layout_constraintBottom_toTopOf="@id/textViewAuthor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageViewPicture"
+                    tools:text="John Doe" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewAuthor"
+                    style="@style/Post.Author"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:author="@{viewmodel.post.author}"
+                    app:layout_constraintBottom_toTopOf="@id/textViewBody"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                    tools:text="John Doe" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewBody"
+                    style="@style/Post.Body"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.post.body}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAuthor"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus eget ipsum vitae viverra. Etiam nisl leo, sodales pellentesque semper at, commodo vel turpis." />
+                <!-- endregion -->
+
+                <!-- Region Comments -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCommentsCount"
+                    style="@style/ItemPost.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:comments_count="@{viewmodel.post.comments.size()}"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewBody"
+                    tools:text="@string/one_comment_count" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewComments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.post.comments.size() > 0 ? View.VISIBLE : View.GONE}"
+                    app:items="@{viewmodel.post.comments}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCommentsCount"
+                    tools:listitem="@layout/item_comment"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+
+            <!-- region error -->
+            <LinearLayout
+                android:id="@+id/linearLayoutError"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.hasError ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_sad"
+                    app:tint="@color/grey"
+                    tools:ignore="ContentDescription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    app:error="@{viewmodel.error}"
+                    tools:text="@string/get_post_detail_error_message" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:onClick="@{() -> viewmodel.getPostDetail()}"
+                    app:srcCompat="@drawable/ic_refresh" />
+
+            </LinearLayout>
+            <!-- endregion -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

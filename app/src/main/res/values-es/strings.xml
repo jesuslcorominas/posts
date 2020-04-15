@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Posts</string>
+
+    <string name="get_posts_error_message">Error obteniendo los posts.\nPor favor, inténtalo de nuevo más tarde.</string>
+    <string name="get_post_detail_error_message">Error obteniendo el post.\nPor favor, inténtalo de nuevo más tarde.</string>
+    <string name="unknown_error_message">Se ha producido un error desconocido.\nPor favor, inténtalo de nuevo más tarde.</string>
+
+    <string name="one_comment_count">1 Comentario</string>
+    <string name="comments_count">%1d Comentarios</string>
+</resources>

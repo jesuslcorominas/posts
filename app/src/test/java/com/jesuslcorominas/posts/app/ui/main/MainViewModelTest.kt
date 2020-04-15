@@ -1,20 +1,36 @@
 package com.jesuslcorominas.posts.app.ui.main
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.jesuslcorominas.posts.app.ui.common.Event
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class MainViewModelTest {
 
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
     private val getPostUseCase: GetPostUseCase = mock()
-    
-    private val mainViewModel = MainViewModel(getPostUseCase)
+
+    private lateinit var mainViewModel: MainViewModel
+
+    @Before
+    fun setUp() {
+        mainViewModel = MainViewModel(getPostUseCase)
+    }
 
     @Test
     fun `posts list should be null when viewmodel is initialized`() {
@@ -27,7 +43,12 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `when getPosts fail error should not be null`() {
+    fun `while getPost is executing loading should be true`() {
+        assertTrue(mainViewModel.loading.value!!)
+    }
+
+    @Test
+    fun `when getPosts fail hasError should be true`() {
         whenever(getPostUseCase.getPosts()).thenReturn(Single.create {
             it.onError(
                 ConnectionException()
@@ -36,6 +57,17 @@ class MainViewModelTest {
 
         getPostUseCase.getPosts()
 
-        assertNotNull(mainViewModel.error.value)
+        assertNotNull(mainViewModel.hasError.value)
+    }
+
+    @Test
+    fun `onPostClick should launch event navigate to detail`() {
+        val observerNavigateToDetailEvent: Observer<Event<Int>> = mock()
+
+        mainViewModel.navigateToDetail.observeForever(observerNavigateToDetailEvent)
+
+        mainViewModel.onPostClicked(any())
+
+        verify(observerNavigateToDetailEvent).onChanged(mainViewModel.navigateToDetail.value)
     }
 }
