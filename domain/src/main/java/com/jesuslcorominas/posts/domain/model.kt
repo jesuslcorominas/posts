@@ -26,7 +26,15 @@ data class Post(
     }
 }
 
-data class Author(val id: Int, val name: String, val email: String)
+data class Author(val id: Int, val name: String, val email: String) {
+    companion object {
+        const val END_INFO = ".info"
+        const val INFO = "\u2139"
+
+        const val END_UK = ".co.uk"
+        const val UK = "\uD83C\uDDEC\uD83C\uDDE7"
+    }
+}
 
 data class Comment(
     val id: Int,
