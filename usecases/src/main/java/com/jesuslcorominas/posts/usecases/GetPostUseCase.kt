@@ -8,8 +8,4 @@ import io.reactivex.Single
 class GetPostUseCase(private val postRepository: PostRepository) {
 
     fun getPosts() = postRepository.getPosts()
-
-//    fun getPosts(): Single<List<Post>> = Single.create {
-//        it.onError(ConnectionException())
-//    }
 }

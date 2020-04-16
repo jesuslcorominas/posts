@@ -9,6 +9,7 @@ import com.jesuslcorominas.posts.domain.Post
 import com.jesuslcorominas.posts.testshared.mockedAuthor
 import com.jesuslcorominas.posts.testshared.mockedComment
 import com.jesuslcorominas.posts.testshared.mockedPost
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -106,13 +107,12 @@ class LocalDatasourceTest {
         testObserver.dispose()
     }
 
-    // TODO comprobar este test
     @Test
-    fun `savePosts should insert post list`() {
+    fun `savePosts should run an insert transaction`() {
         val mockStoredPosts = listOf(mockedPost.copy(1))
 
         localDatasource.savePosts(mockStoredPosts)
 
-        verify(postDatabase.postDao()).insert(mockStoredPosts.map { it.toDbPost() })
+        verify(postDatabase).runInTransaction(any())
     }
 }
