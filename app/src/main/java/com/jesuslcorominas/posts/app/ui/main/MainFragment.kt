@@ -1,18 +1,14 @@
 package com.jesuslcorominas.posts.app.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.databinding.FragmentMainBinding
-import com.jesuslcorominas.posts.app.ui.common.EventObserver
-import com.jesuslcorominas.posts.app.ui.common.applicationComponent
-import com.jesuslcorominas.posts.app.ui.common.bindingInflate
-import com.jesuslcorominas.posts.app.ui.common.getViewModel
+import com.jesuslcorominas.posts.app.ui.common.*
+
 
 class MainFragment : Fragment() {
 
@@ -22,6 +18,26 @@ class MainFragment : Fragment() {
 
     private lateinit var component: MainComponent
     private val viewModel: MainViewModel by lazy { getViewModel { component.mainViewModel } }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        return if (id == R.id.action_copyright) {
+            showLicenses()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
