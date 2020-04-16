@@ -2,7 +2,6 @@ package com.jesuslcorominas.posts.data.repository
 
 import com.jesuslcorominas.posts.data.source.LocalDatasource
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
-import com.jesuslcorominas.posts.domain.DatabaseEmptyException
 import com.jesuslcorominas.posts.domain.DatabaseException
 import com.jesuslcorominas.posts.domain.Post
 import io.reactivex.Single
@@ -18,15 +17,15 @@ class PostRepository(
      * de la base de datos y si eso tambien falla lanza el error
      */
     fun getPosts(): Single<List<Post>> =
-    remoteDatasource
-        .getPosts()
-        .flatMap { posts ->
-            localDatasource
-                .savePosts(posts)
-                .andThen(getLocalPostsOrThrowException(DatabaseException()))
-        }.onErrorResumeNext {
-            getLocalPostsOrThrowException(it)
-        }
+        remoteDatasource
+            .getPosts()
+            .flatMap { posts ->
+                localDatasource
+                    .savePosts(posts)
+                    .andThen(getLocalPostsOrThrowException(DatabaseException()))
+            }.onErrorResumeNext {
+                getLocalPostsOrThrowException(it)
+            }
 
     private fun getLocalPostsOrThrowException(e: Throwable) = localDatasource
         .getPosts()
@@ -42,13 +41,11 @@ class PostRepository(
         .findPostById(postId)
         .onErrorResumeNext(Single.error(DatabaseException()))
         .flatMap { post -> remoteDatasource.getPostDetail(post) }
-        .onErrorResumeNext {
-            getLocalPostDetailOrThrowException(postId, it)
-        }
+        .onErrorResumeNext { getLocalPostDetailOrThrowException(postId, it) }
         .flatMap { post ->
             localDatasource
                 .savePosts(listOf(post))
-                .andThen(getLocalPostDetailOrThrowException(postId, DatabaseEmptyException()))
+                .andThen(getLocalPostDetailOrThrowException(postId, DatabaseException()))
         }
 
 

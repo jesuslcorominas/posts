@@ -6,6 +6,7 @@ import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.domain.DatabaseException
 import com.jesuslcorominas.posts.domain.Post
 import com.jesuslcorominas.posts.testshared.mockedPost
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -36,7 +37,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    fun `when remote datasource return error local datasource should be called`() {
+    fun `when remote getPosts return error local datasource should be called`() {
         val mockedPosts = listOf(mockedPost.copy(1))
 
         whenever(remoteDatasource.getPosts()).thenReturn(Single.create { it.onError(Exception()) })
@@ -50,7 +51,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    fun `when remote datasource return error local post should be retrived`() {
+    fun `when remote getPosts return error local posts should be retrived`() {
         val mockedPosts = listOf(mockedPost.copy(1))
 
         whenever(remoteDatasource.getPosts()).thenReturn(Single.create { it.onError(Exception()) })
@@ -64,7 +65,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    fun `when remote post retrived its should be saved on local`() {
+    fun `when remote posts retrived its should be saved on local`() {
         val mockedPosts = listOf(mockedPost.copy(1))
 
         whenever(remoteDatasource.getPosts()).thenReturn(Single.create { it.onSuccess(mockedPosts) })
@@ -82,7 +83,7 @@ class PostRepositoryTest {
      * pero asi comprobamos que lo que se devuelve finalmente son los locales y no los remotos
      */
     @Test
-    fun `when remote post retrived local post should be retrived`() {
+    fun `when remote posts retrived local post should be retrived`() {
         val remotePost = listOf(mockedPost.copy(1))
         val localPost = listOf(mockedPost.copy(2))
 
@@ -96,7 +97,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    fun `when remote datasource return error and no local post remote exception should be thrown`() {
+    fun `when remote datasource return error and no posts stored remote exception should be thrown`() {
         whenever(remoteDatasource.getPosts()).thenReturn(Single.create {
             it.onError(
                 ConnectionException()
@@ -125,5 +126,68 @@ class PostRepositoryTest {
         testObserver.dispose()
     }
 
+    @Test
+    fun `getPostDetail should find post by id`() {
+        val mockedPost = mockedPost.copy(1)
 
+        whenever(localDatasource.findPostById(any())).thenReturn(Single.create {
+            it.onSuccess(mockedPost)
+        })
+
+        postsRepository.getPostDetail(1)
+
+        verify(localDatasource).findPostById(1)
+    }
+
+    @Test
+    fun `if post not found on database DatabaseException should be thrown`() {
+        whenever(localDatasource.findPostById(any())).thenReturn(Single.error(Exception()))
+        whenever(remoteDatasource.getPostDetail(any())).thenReturn(Single.error(Exception()))
+        whenever(localDatasource.getPostDetail(any())).thenReturn(Maybe.create { it.onComplete() })
+
+        val testObserver: TestObserver<Post> = postsRepository.getPostDetail(1).test()
+        testObserver.assertError(DatabaseException::class.java)
+
+        testObserver.dispose()
+    }
+
+    // TODO revisar estos tests
+    @Test
+    fun `when local post found remote post should be retrived`() {
+        val mockedPost = mockedPost.copy(1)
+
+        whenever(localDatasource.findPostById(1)).thenReturn(Single.create {
+            it.onSuccess(mockedPost)
+        })
+        whenever(remoteDatasource.getPostDetail(mockedPost)).thenReturn(Single.create {
+            it.onSuccess(mockedPost)
+        })
+        whenever(localDatasource.getPostDetail(any())).thenReturn(Maybe.create {
+            it.onSuccess(mockedPost)
+        })
+
+        postsRepository.getPostDetail(1)
+
+        verify(remoteDatasource).getPostDetail(mockedPost)
+    }
+
+    @Test
+    fun `when get remote post fails local post should be retrived`() {
+
+    }
+
+    @Test
+    fun `when get remote and local post fails exception should be thrown`() {
+
+    }
+
+    @Test
+    fun `when remote post retrived it should be saved on database`() {
+
+    }
+
+    @Test
+    fun `getPostDetail should retrive local post`() {
+
+    }
 }

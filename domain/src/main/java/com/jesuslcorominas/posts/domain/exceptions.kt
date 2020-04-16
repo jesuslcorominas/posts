@@ -8,5 +8,3 @@ class ConnectionException : Exception()
 
 class DatabaseException : Exception()
 
-class DatabaseEmptyException : Exception()
-

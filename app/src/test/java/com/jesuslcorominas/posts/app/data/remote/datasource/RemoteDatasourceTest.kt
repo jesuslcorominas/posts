@@ -87,6 +87,8 @@ class RemoteDatasourceTest {
         testObserver.dispose()
     }
 
+    // TODO testear getPostDetail
+
     private class MockResponseBody : ResponseBody() {
         override fun contentLength(): Long = 0
         override fun contentType(): MediaType? = null
