@@ -1,6 +1,7 @@
 package com.jesuslcorominas.posts.app.ui.main
 
 import com.jesuslcorominas.posts.data.repository.PostRepository
+import com.jesuslcorominas.posts.domain.analytics.AnalyticsTracker
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 import dagger.Module
 import dagger.Provides
@@ -10,7 +11,7 @@ import dagger.Subcomponent
 class MainModule {
 
     @Provides
-    fun providesMainViewModel(getPostUseCase: GetPostUseCase) = MainViewModel(getPostUseCase)
+    fun providesMainViewModel(getPostUseCase: GetPostUseCase, analyticsTracker: AnalyticsTracker) = MainViewModel(getPostUseCase, analyticsTracker)
 
     @Provides
     fun providesGetPostUseCase(postRepository: PostRepository) = GetPostUseCase(postRepository)
