@@ -1,5 +1,8 @@
 package com.jesuslcorominas.posts.app.ui.common
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.jesuslcorominas.posts.app.App
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
@@ -71,5 +75,19 @@ inline fun <reified T : ViewModel> Fragment.getViewModel(crossinline factory: ()
 fun Fragment.applicationComponent(): ApplicationComponent =
     (activity?.application as App).appComponent
 
+inline fun <reified T : Activity> Context.intentFor(body: Intent.() -> Unit): Intent =
+    Intent(this, T::class.java).apply(body)
 
+inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
+    startActivity(intentFor<T>(body))
+}
+
+inline fun <reified T : Activity> Fragment.startActivity(body: Intent.() -> Unit) {
+    activity?.startActivity<T>(body)
+}
+
+fun Fragment.showLicenses() {
+    OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licenses))
+    startActivity<OssLicensesMenuActivity> { }
+}
 

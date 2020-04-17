@@ -48,10 +48,9 @@ class DetailViewModel(
                                 e,
                                 "Respuesta del servidor no valida"
                             )
-                            is DatabaseEmptyException -> Timber.e(e, "Base de datos vacia")
                             is DatabaseException -> Timber.e(
                                 e,
-                                "Error desconocido en base de datos"
+                                "Error de base de datos"
                             )
                             else -> Timber.e(e, "Error desconocido")
                         }
