@@ -22,22 +22,33 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        initDagger()
+
+        initTimber()
+        initStetho()
+
+        initEmojiCompat()
+
+        configRxErrorHandle()
+    }
+
+    private fun initDagger() {
         appComponent = DaggerApplicationComponent
             .builder()
             .applicationModule(ApplicationModule(this))
             .build()
+    }
 
+    private fun initTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
-
-        Stetho.initializeWithDefaults(this)
-
-        configEmojiCompat()
-        configRxErrorHandle()
     }
 
-    private fun configEmojiCompat() {
+    private fun initStetho() = Stetho.initializeWithDefaults(this)
+
+    private fun initEmojiCompat() {
         val config: EmojiCompat.Config
         // Use a downloadable font for EmojiCompat
         val fontRequest = FontRequest(
