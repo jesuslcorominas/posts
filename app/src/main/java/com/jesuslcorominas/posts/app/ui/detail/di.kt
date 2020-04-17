@@ -1,6 +1,8 @@
 package com.jesuslcorominas.posts.app.ui.detail
 
+import com.jesuslcorominas.posts.app.ui.common.SchedulerProvider
 import com.jesuslcorominas.posts.data.repository.PostRepository
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import com.jesuslcorominas.posts.usecases.GetPostDetailUseCase
 import dagger.Module
 import dagger.Provides
@@ -11,9 +13,11 @@ class DetailModule(private val postId: Int) {
 
     @Provides
     fun providesDetailViewModel(
-        getPostDetailUseCase: GetPostDetailUseCase
+        getPostDetailUseCase: GetPostDetailUseCase,
+        analyticsTracker: AnalyticsTracker,
+        schedulerProvider: SchedulerProvider
     ): DetailViewModel {
-        return DetailViewModel(postId, getPostDetailUseCase)
+        return DetailViewModel(postId, getPostDetailUseCase, analyticsTracker, schedulerProvider)
     }
 
     @Provides

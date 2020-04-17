@@ -2,17 +2,22 @@ package com.jesuslcorominas.posts.app.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jesuslcorominas.posts.app.data.analytics.GetPostDetailErrorEvent
+import com.jesuslcorominas.posts.app.data.analytics.GetPostDetailEvent
 import com.jesuslcorominas.posts.app.ui.common.BaseViewModel
+import com.jesuslcorominas.posts.app.ui.common.SchedulerProvider
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import com.jesuslcorominas.posts.domain.*
 import com.jesuslcorominas.posts.usecases.GetPostDetailUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class DetailViewModel(
-    private val postId: Int, private val getPostDetailUseCase: GetPostDetailUseCase
+    private val postId: Int,
+    private val getPostDetailUseCase: GetPostDetailUseCase,
+    private val analyticsTracker: AnalyticsTracker,
+    private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     private val disposables = CompositeDisposable()
@@ -25,13 +30,15 @@ class DetailViewModel(
     }
 
     fun getPostDetail() {
+        analyticsTracker.track(GetPostDetailEvent(postId))
+
         _loading.value = true
         hideError()
 
         disposables.add(
             getPostDetailUseCase.getPostDetailUseCase(postId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribeWith(object : DisposableSingleObserver<Post>() {
                     override fun onSuccess(post: Post) {
                         _post.value = post
@@ -39,6 +46,8 @@ class DetailViewModel(
                     }
 
                     override fun onError(e: Throwable) {
+                        analyticsTracker.track(GetPostDetailErrorEvent(postId, e::class.simpleName))
+
                         when (e) {
                             is ConnectionException -> Timber.e(e, "Error de conexion")
                             is ServerException -> Timber.e(

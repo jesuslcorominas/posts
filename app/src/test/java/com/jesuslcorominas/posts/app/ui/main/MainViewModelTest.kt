@@ -2,7 +2,10 @@ package com.jesuslcorominas.posts.app.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.jesuslcorominas.posts.app.ui.TrampolineSchedulerProvider
 import com.jesuslcorominas.posts.app.ui.common.Event
+import com.jesuslcorominas.posts.app.ui.common.SchedulerProvider
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import com.jesuslcorominas.posts.domain.ConnectionException
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 import com.nhaarman.mockitokotlin2.any
@@ -24,12 +27,14 @@ class MainViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private val getPostUseCase: GetPostUseCase = mock()
+    private val analyticsTracker: AnalyticsTracker = mock()
+    private val schedulerProvider: SchedulerProvider = TrampolineSchedulerProvider()
 
     private lateinit var mainViewModel: MainViewModel
 
     @Before
     fun setUp() {
-        mainViewModel = MainViewModel(getPostUseCase)
+        mainViewModel = MainViewModel(getPostUseCase, analyticsTracker, schedulerProvider)
     }
 
     @Test

@@ -56,7 +56,8 @@ allprojects {
         ]
 
         kotlinLibs = [
-                stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+                stdlib        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+                kotlin_reflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
         ]
 
         libs = [
