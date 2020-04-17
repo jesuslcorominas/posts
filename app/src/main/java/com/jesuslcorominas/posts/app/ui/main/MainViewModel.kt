@@ -50,7 +50,7 @@ class MainViewModel(private val getPostUseCase: GetPostUseCase) : BaseViewModel(
                                 e,
                                 "Respuesta del servidor no valida"
                             )
-                            is DatabaseEmptyException -> Timber.e(e, "Base de datos vacia")
+                            is DatabaseException -> Timber.e(e, "Error de base de datos")
                             else -> Timber.e(e, "Error desconocido")
                         }
 

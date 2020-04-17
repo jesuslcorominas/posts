@@ -7,7 +7,9 @@ import com.jesuslcorominas.posts.domain.Author as DomainAuthor
 import com.jesuslcorominas.posts.domain.Comment as DomainComment
 import com.jesuslcorominas.posts.domain.Post as DomainPost
 
-fun DbPost.toDomainPost() = DomainPost(id, userId, title, body, author = null, comments = ArrayList())
+fun DbPost.toDomainPost() =
+    DomainPost(id, userId, title, body, author = null, comments = ArrayList())
+
 fun DomainPost.toDbPost() = DbPost(id, userId, title, body)
 
 fun DomainAuthor.toDbAuthor() = DbAuthor(id, name, email)
@@ -23,4 +25,9 @@ fun PostDetail.toDomainPost() = DomainPost(
     post.body,
     author?.toDomainAuthor(),
     comments?.map { it.toDomainComment() } ?: ArrayList())
+
+fun DomainPost.toDbPostDetail() = PostDetail(
+    DbPost(id, userId, title, body),
+    author?.toDbAuthor(),
+    comments.map { it.toDbComment() })
 
