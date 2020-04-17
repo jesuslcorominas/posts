@@ -1,4 +1,4 @@
-package com.jesuslcorominas.posts.domain.analytics
+package com.jesuslcorominas.posts.data.source
 
 interface AnalyticsTracker {
 

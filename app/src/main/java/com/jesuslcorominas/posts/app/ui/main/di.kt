@@ -1,7 +1,7 @@
 package com.jesuslcorominas.posts.app.ui.main
 
 import com.jesuslcorominas.posts.data.repository.PostRepository
-import com.jesuslcorominas.posts.domain.analytics.AnalyticsTracker
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 import dagger.Module
 import dagger.Provides

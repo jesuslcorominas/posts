@@ -1,4 +1,4 @@
-package com.jesuslcorominas.posts.app.analytics
+package com.jesuslcorominas.posts.app.data.analytics
 
 import android.os.Bundle
 import android.os.IBinder
@@ -7,6 +7,9 @@ import android.util.Size
 import android.util.SizeF
 import java.io.Serializable
 
+/**
+ * https://gist.github.com/bulwinkel/60f2d06314c0d43225204c00251f1f48
+ */
 fun <V> Map<String, V>.toBundle(bundle: Bundle = Bundle()): Bundle = bundle.apply {
     forEach {
         val k = it.key

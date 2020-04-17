@@ -2,8 +2,8 @@ package com.jesuslcorominas.posts.app.di
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.jesuslcorominas.posts.app.analytics.AnalyticsTrackerImpl
-import com.jesuslcorominas.posts.domain.analytics.AnalyticsTracker
+import com.jesuslcorominas.posts.app.data.analytics.AnalyticsTrackerImpl
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -2,12 +2,12 @@ package com.jesuslcorominas.posts.app.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jesuslcorominas.posts.app.analytics.ClickPostEvent
-import com.jesuslcorominas.posts.app.analytics.GetPostsEvent
+import com.jesuslcorominas.posts.app.data.analytics.ClickPostEvent
+import com.jesuslcorominas.posts.app.data.analytics.GetPostsEvent
 import com.jesuslcorominas.posts.app.ui.common.BaseViewModel
 import com.jesuslcorominas.posts.app.ui.common.Event
 import com.jesuslcorominas.posts.domain.*
-import com.jesuslcorominas.posts.domain.analytics.AnalyticsTracker
+import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import com.jesuslcorominas.posts.usecases.GetPostUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
