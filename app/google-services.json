@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "444090382073",
+    "firebase_url": "https://posts-c1bc8.firebaseio.com",
+    "project_id": "posts-c1bc8",
+    "storage_bucket": "posts-c1bc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444090382073:android:8fa81feaef65b6712b5428",
+        "android_client_info": {
+          "package_name": "com.jesuslcorominas.posts.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444090382073-jctpmfiesbadd2tmosfe2ied8sru1eig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcng_JivSaeKBoX-PxKGqMJwZpbvY9cQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444090382073-jctpmfiesbadd2tmosfe2ied8sru1eig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

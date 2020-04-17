@@ -23,7 +23,7 @@ fun TextView.setError(e: Throwable) {
         is ConnectionException -> setResourceText(R.string.get_posts_error_message)
         is InvalidResponseException -> setResourceText(R.string.get_posts_error_message)
         is ServerException -> setResourceText(R.string.get_posts_error_message)
-        is DatabaseEmptyException -> setResourceText(R.string.get_posts_error_message)
+        is DatabaseException -> setResourceText(R.string.get_posts_error_message)
         else -> setResourceText(R.string.unknown_error_message)
     }
 }
