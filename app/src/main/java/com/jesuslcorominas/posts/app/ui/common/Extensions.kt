@@ -18,6 +18,7 @@ import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.jesuslcorominas.posts.app.App
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
@@ -89,5 +90,13 @@ inline fun <reified T : Activity> Fragment.startActivity(body: Intent.() -> Unit
 fun Fragment.showLicenses() {
     OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licenses))
     startActivity<OssLicensesMenuActivity> { }
+}
+
+fun BaseFragment.trackScreen(name: String?) {
+    activity?.trackScreen(name)
+}
+
+fun Activity.trackScreen(name: String?) {
+    FirebaseAnalytics.getInstance(this).setCurrentScreen(this, name, null)
 }
 
