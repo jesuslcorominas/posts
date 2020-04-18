@@ -41,43 +41,43 @@ class LocalDatasourceTest {
 
     @Test
     fun `if posts has items getPosts should retrieve stored posts`() {
-        val mockStoredPosts = listOf(mockedPost.copy(1))
+        val storedPosts = listOf(mockedPost.copy(1))
 
-        whenever(postDatabase.postDao().getAll()).thenReturn(mockStoredPosts.map { it.toDbPost() })
+        whenever(postDatabase.postDao().getAll()).thenReturn(storedPosts.map { it.toDbPost() })
 
         val testObserver: TestObserver<List<Post>> = localDatasource.getPosts().test()
-        testObserver.assertValue { it == mockStoredPosts }
+        testObserver.assertValue { it == storedPosts }
 
         testObserver.dispose()
     }
 
     @Test
     fun `findPostById should retrieve post with specific id`() {
-        val mockStoredPost = mockedPost.copy(1)
+        val storedPost = mockedPost.copy(1)
 
         whenever(
             postDatabase
                 .postDao()
                 .findPostById(1)
         )
-            .thenReturn(mockStoredPost.toDbPost())
+            .thenReturn(storedPost.toDbPost())
 
         val testObserver: TestObserver<Post> = localDatasource.findPostById(1).test()
-        testObserver.assertValue { it == mockStoredPost }
+        testObserver.assertValue { it == storedPost }
 
         testObserver.dispose()
     }
 
     @Test
     fun `when posts author is null getPostDetail should not get post`() {
-        val mockStoredPostWithOutAuthor = mockedPost.copy(1)
+        val storedPostWithoutAuthor = mockedPost.copy(1)
 
         whenever(
             postDatabase
                 .postDao()
                 .getPostWithComments(1)
         )
-            .thenReturn(mockStoredPostWithOutAuthor.toDbPostDetail())
+            .thenReturn(storedPostWithoutAuthor.toDbPostDetail())
 
 
         val testObserver: TestObserver<Post> = localDatasource.getPostDetail(1).test()
@@ -88,7 +88,7 @@ class LocalDatasourceTest {
 
     @Test
     fun `getPostWithComments should retrieve post with author and comments`() {
-        val mockStoredPostWithDetail = mockedPost.copy(
+        val storedPostWithDetails = mockedPost.copy(
             1,
             author = mockedAuthor.copy(1),
             comments = listOf(mockedComment.copy(1))
@@ -99,19 +99,19 @@ class LocalDatasourceTest {
                 .postDao()
                 .getPostWithComments(1)
         )
-            .thenReturn(mockStoredPostWithDetail.toDbPostDetail())
+            .thenReturn(storedPostWithDetails.toDbPostDetail())
 
         val testObserver: TestObserver<Post> = localDatasource.getPostDetail(1).test()
-        testObserver.assertValue { it == mockStoredPostWithDetail }
+        testObserver.assertValue { it == storedPostWithDetails }
 
         testObserver.dispose()
     }
 
     @Test
     fun `savePosts should run an insert transaction`() {
-        val mockStoredPosts = listOf(mockedPost.copy(1))
+        val storedPosts = listOf(mockedPost.copy(1))
 
-        localDatasource.savePosts(mockStoredPosts)
+        localDatasource.savePosts(storedPosts)
 
         verify(postDatabase).runInTransaction(any())
     }
