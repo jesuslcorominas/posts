@@ -36,7 +36,7 @@ class DetailViewModel(
         hideError()
 
         disposables.add(
-            getPostDetailUseCase.getPostDetailUseCase(postId)
+            getPostDetailUseCase.getPostDetail(postId)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribeWith(object : DisposableSingleObserver<Post>() {
