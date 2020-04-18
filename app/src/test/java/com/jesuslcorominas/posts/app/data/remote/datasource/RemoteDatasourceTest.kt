@@ -31,24 +31,24 @@ class RemoteDatasourceTest {
 
     @Before
     fun setUp() {
-        val mockedRemoteApi: RemoteApi = mock()
-        whenever(remoteService.api()).thenReturn(mockedRemoteApi)
+        val remoteApi: RemoteApi = mock()
+        whenever(remoteService.api()).thenReturn(remoteApi)
 
         val mockedCall: Call<List<RemotePost>> = mock()
-        whenever(mockedRemoteApi.getPosts()).thenReturn(mockedCall)
+        whenever(remoteApi.getPosts()).thenReturn(mockedCall)
     }
 
     @Test
     fun `getPosts should get remote posts`() {
-        val mockedRemotePosts = listOf(mockedPost.copy(1))
+        val remotePosts = listOf(mockedPost.copy(1))
         whenever(remoteService.api().getPosts().execute()).thenReturn(
             Response.success(
-                mockedRemotePosts.map { it.toRemotePost() }
+                remotePosts.map { it.toRemotePost() }
             )
         )
 
         val testObserver: TestObserver<List<DomainPost>> = remoteDatasource.getPosts().test()
-        testObserver.assertValue { it == mockedRemotePosts }
+        testObserver.assertValue { it == remotePosts }
 
         testObserver.dispose()
     }
