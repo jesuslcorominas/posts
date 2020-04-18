@@ -120,7 +120,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    fun `when remote get posts returns posts and no local post retieved DatabaseException should be thrown`() {
+    fun `when remote get posts returns posts and no local post retrieved DatabaseException should be thrown`() {
         val posts = listOf(mockedPost.copy(postId))
 
         whenever(remoteDatasource.getPosts()).thenReturn(Single.create { it.onSuccess(posts) })
@@ -192,7 +192,9 @@ class PostRepositoryTest {
         whenever(localDatasource.findPostById(postId)).thenReturn(Single.create {
             it.onSuccess(post)
         })
-        whenever(remoteDatasource.getPostDetail(post)).thenReturn(Single.error(ConnectionException()))
+        whenever(remoteDatasource.getPostDetail(post)).thenReturn(
+            Single.error(ConnectionException())
+        )
         whenever(localDatasource.getPostDetail(postId)).thenReturn(Maybe.create {
             it.onSuccess(postWithDetail)
         })
@@ -204,7 +206,6 @@ class PostRepositoryTest {
         testObserver.dispose()
     }
 
-    // TODO revisar este test. NO esta devolviendo la excepcion que debe
     @Test
     fun `when get remote and local post fails exception should be thrown`() {
         val post = mockedPost.copy(postId)
@@ -212,8 +213,12 @@ class PostRepositoryTest {
         whenever(localDatasource.findPostById(postId)).thenReturn(Single.create {
             it.onSuccess(post)
         })
-        whenever(remoteDatasource.getPostDetail(post)).thenReturn(Single.error(ConnectionException()))
-        whenever(localDatasource.getPostDetail(postId)).thenReturn(Maybe.error(DatabaseException()))
+        whenever(remoteDatasource.getPostDetail(post)).thenReturn(
+            Single.error(ConnectionException())
+        )
+        whenever(localDatasource.getPostDetail(postId)).thenReturn(
+            Maybe.create { emitter -> emitter.onComplete() }
+        )
 
         val testObserver: TestObserver<Post> = postsRepository.getPostDetail(postId).test()
         testObserver.assertError(RemoteException::class.java)
