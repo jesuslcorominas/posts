@@ -14,4 +14,4 @@ val mockedPost = Post(
 )
 
 val mockedAuthor = Author(1, "Author", "email@author.com")
-val mockedComment = Comment(1, 2, "Comment name", "jesuslcorominas@gmail.com", "Comment body")
+val mockedComment = Comment(1, 1, "Comment name", "jesuslcorominas@gmail.com", "Comment body")
