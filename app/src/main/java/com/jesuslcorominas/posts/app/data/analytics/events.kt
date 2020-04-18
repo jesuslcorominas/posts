@@ -3,15 +3,15 @@ package com.jesuslcorominas.posts.app.data.analytics
 import com.jesuslcorominas.posts.data.source.AnalyticsEvent
 
 class ClickPostEvent(private val postId: Int) :
-    AnalyticsEvent("ClickPost", mapOf("postId" to postId))
+    AnalyticsEvent("click_post", mapOf("post_id" to postId))
 
-class GetPostsEvent() : AnalyticsEvent("getPosts")
+class GetPostsEvent() : AnalyticsEvent("get_posts")
 
 class GetPostsErrorEvent(private val error: String?) :
-    AnalyticsEvent("getPostsError", mapOf("error" to error))
+    AnalyticsEvent("get_posts_error", mapOf("error" to error))
 
 class GetPostDetailEvent(private val postId: Int) :
-    AnalyticsEvent("getPostDetail", mapOf("postId" to postId))
+    AnalyticsEvent("get_post_detail", mapOf("post_id" to postId))
 
 class GetPostDetailErrorEvent(private val postId: Int, private val error: String?) :
-    AnalyticsEvent("getPostDetail", mapOf("postId" to postId, "error" to error))
+    AnalyticsEvent("get_post_detail_error", mapOf("post_id" to postId, "error" to error))
