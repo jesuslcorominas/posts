@@ -25,6 +25,8 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+
+        buildConfigField "String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\""
     }
 
     buildTypes {

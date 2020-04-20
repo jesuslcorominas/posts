@@ -8,6 +8,7 @@ import com.facebook.stetho.Stetho
 import com.jesuslcorominas.posts.app.di.ApplicationComponent
 import com.jesuslcorominas.posts.app.di.ApplicationModule
 import com.jesuslcorominas.posts.app.di.DaggerApplicationComponent
+import com.jesuslcorominas.posts.app.di.DataModule
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
@@ -37,6 +38,7 @@ class App : Application() {
         appComponent = DaggerApplicationComponent
             .builder()
             .applicationModule(ApplicationModule(this))
+            .dataModule(DataModule(BuildConfig.BASE_URL))
             .build()
     }
 
