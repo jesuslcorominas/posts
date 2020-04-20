@@ -27,6 +27,39 @@ allprojects {
     }
 
     ext {
+        referenceVersionCode = 1
+        referenceVersionName = "1.0.0"
+
+        getCustomVersionName = { referenceVersionName ->
+            def finalVersionName = referenceVersionName
+
+            def bitriseBuild = System.getenv()["BITRISE_BUILD"]
+
+            if (bitriseBuild) {
+                def buildNumber = System.getenv()["BITRISE_BUILD_NUMBER"]
+                finalVersionName = finalVersionName + "." + buildNumber
+            } else {
+                finalVersionName = finalVersionName + ".LOCAL"
+            }
+
+            return finalVersionName
+        }
+
+        getCustomVersionCode = { referenceVersionCode ->
+            def referenceVersionMultiplier = 10000
+            def finalVersionCode = referenceVersionCode * referenceVersionMultiplier
+
+            def bitriseBuild = System.getenv()["BITRISE_BUILD"]
+
+            if (bitriseBuild) {
+                def buildNumber = System.getenv()["BITRISE_BUILD_NUMBER"]
+                finalVersionCode = finalVersionCode + Integer.valueOf(buildNumber)
+            }
+
+            return finalVersionCode
+        }
+
+
         roomVersion = "2.2.3"
         stethoVersion = "1.5.1"
         daggerVersion = "2.27"
@@ -86,10 +119,10 @@ allprojects {
         ]
 
         androidTestLibs = [
-                testRunner   : 'androidx.test:runner:1.2.0',
-                espresso     : 'androidx.test.espresso:espresso-contrib:3.2.0',
-                rules        : 'androidx.test:rules:1.2.0',
-                extJunit     : 'androidx.test.ext:junit-ktx:1.1.1'
+                testRunner: 'androidx.test:runner:1.2.0',
+                espresso  : 'androidx.test.espresso:espresso-contrib:3.2.0',
+                rules     : 'androidx.test:rules:1.2.0',
+                extJunit  : 'androidx.test.ext:junit-ktx:1.1.1'
         ]
     }
 }

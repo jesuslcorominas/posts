@@ -15,8 +15,8 @@ android {
         applicationId "com.jesuslcorominas.posts.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode getCustomVersionCode(referenceVersionCode)
+        versionName getCustomVersionName(referenceVersionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,6 +48,13 @@ android {
         enabled true
     }
 
+    applicationVariants.all { variant ->
+        def outputName="app-${variant.buildType.name}_posts_VC_${defaultConfig.versionCode}_${defaultConfig.versionName}.apk"
+
+        variant.outputs.all { output ->
+            outputFileName = outputName
+        }
+    }
 }
 
 dependencies {
