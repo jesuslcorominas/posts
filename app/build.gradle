@@ -18,13 +18,15 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.jesuslcorominas.posts.app.util.MockRunner"
 
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+
+        buildConfigField "String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\""
     }
 
     buildTypes {
@@ -66,5 +68,4 @@ dependencies {
     testImplementation testLibs.values()
     testImplementation androidxTestLibs.values()
     androidTestImplementation androidTestLibs.values()
-
 }

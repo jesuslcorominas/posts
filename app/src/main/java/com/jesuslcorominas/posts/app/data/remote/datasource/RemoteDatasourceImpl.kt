@@ -17,6 +17,7 @@ class RemoteDatasourceImpl(private val remoteService: RemoteService) : RemoteDat
         return Single.create { emitter ->
             try {
                 val response = remoteService.api().getPosts().execute()
+                System.out.println(response.body())
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {

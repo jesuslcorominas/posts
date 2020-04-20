@@ -10,17 +10,10 @@ import com.jesuslcorominas.posts.data.source.LocalDatasource
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class DataModule {
-
-    companion object {
-        const val NAME_BASE_URL = "base_url"
-
-        const val BASE_URL = "https://jsonplaceholder.typicode.com/"
-    }
+class DataModule(private val baseUrl: String) {
 
     @Singleton
     @Provides
@@ -28,12 +21,7 @@ class DataModule {
 
     @Singleton
     @Provides
-    @Named(NAME_BASE_URL)
-    fun providesBaseUrl() = BASE_URL
-
-    @Singleton
-    @Provides
-    fun providesRemoteService(@Named(NAME_BASE_URL) baseUrl: String) = RemoteService(baseUrl)
+    fun providesRemoteService() = RemoteService(baseUrl)
 
     @Singleton
     @Provides
