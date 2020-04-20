@@ -14,7 +14,7 @@ class GetPostDetailUseCaseTest {
 
     @Test
     fun `get posts should call posts repository`() {
-        getPostDetailUseCase.getPostDetailUseCase(any())
+        getPostDetailUseCase.getPostDetail(any())
 
         verify(postRepository).getPostDetail(any())
     }

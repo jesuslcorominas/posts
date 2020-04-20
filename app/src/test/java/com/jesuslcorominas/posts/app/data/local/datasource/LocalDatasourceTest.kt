@@ -1,11 +1,15 @@
 package com.jesuslcorominas.posts.app.data.local.datasource
 
-import com.jesuslcorominas.posts.app.data.local.database.dao.PostDao
 import com.jesuslcorominas.posts.app.data.local.database.PostDatabase
+import com.jesuslcorominas.posts.app.data.local.database.dao.PostDao
 import com.jesuslcorominas.posts.app.data.local.database.toDbPost
+import com.jesuslcorominas.posts.app.data.local.database.toDbPostDetail
 import com.jesuslcorominas.posts.data.source.LocalDatasource
 import com.jesuslcorominas.posts.domain.Post
+import com.jesuslcorominas.posts.testshared.mockedAuthor
+import com.jesuslcorominas.posts.testshared.mockedComment
 import com.jesuslcorominas.posts.testshared.mockedPost
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -26,53 +30,89 @@ class LocalDatasourceTest {
     }
 
     @Test
-    fun `when isEmpty called postCount should be invoked`() {
-        // TODO refactorizar este test para lo haga con el Maybe
-//        localDatasource.isEmpty()
-//
-//        verify(postDatabase.postDao()).postCount()
-    }
-
-    @Test
-    fun `when no posts stored isEmpty should emmit true`() {
-        // TODO refactorizar este test para lo haga con el Maybe
-//        whenever(postDatabase.postDao().postCount()).thenReturn(0)
-//
-//        val testObserver: TestObserver<Boolean> = localDatasource.isEmpty().test()
-//        testObserver.assertValue { it }
-//
-//        testObserver.dispose()
-    }
-
-    @Test
-    fun `when some post stored isEmpty should return false`() {
-        // TODO refactorizar este test para lo haga con el Maybe
-//        whenever(postDatabase.postDao().postCount()).thenReturn(1)
-//
-//        val testObserver: TestObserver<Boolean> = localDatasource.isEmpty().test()
-//        testObserver.assertValue { !it }
-//
-//        testObserver.dispose()
-    }
-
-    @Test
-    fun `getPosts should retrieve stored posts`() {
-        val mockStoredPosts = listOf(mockedPost.copy(1))
-
-        whenever(postDatabase.postDao().getAll()).thenReturn(mockStoredPosts.map { it.toDbPost() })
+    fun `if posts is empty getPost should get no post`() {
+        whenever(postDatabase.postDao().getAll()).thenReturn(ArrayList())
 
         val testObserver: TestObserver<List<Post>> = localDatasource.getPosts().test()
-        testObserver.assertValue { it == mockStoredPosts }
+        testObserver.assertComplete()
 
         testObserver.dispose()
     }
 
     @Test
-    fun `savePosts should insert post list`() {
-        val mockStoredPosts = listOf(mockedPost.copy(1))
+    fun `if posts has items getPosts should retrieve stored posts`() {
+        val storedPosts = listOf(mockedPost.copy(1))
 
-        localDatasource.savePosts(mockStoredPosts)
+        whenever(postDatabase.postDao().getAll()).thenReturn(storedPosts.map { it.toDbPost() })
 
-        verify(postDatabase.postDao()).insert(mockStoredPosts.map { it.toDbPost() })
+        val testObserver: TestObserver<List<Post>> = localDatasource.getPosts().test()
+        testObserver.assertValue { it == storedPosts }
+
+        testObserver.dispose()
+    }
+
+    @Test
+    fun `findPostById should retrieve post with specific id`() {
+        val storedPost = mockedPost.copy(1)
+
+        whenever(
+            postDatabase
+                .postDao()
+                .findPostById(1)
+        )
+            .thenReturn(storedPost.toDbPost())
+
+        val testObserver: TestObserver<Post> = localDatasource.findPostById(1).test()
+        testObserver.assertValue { it == storedPost }
+
+        testObserver.dispose()
+    }
+
+    @Test
+    fun `when posts author is null getPostDetail should not get post`() {
+        val storedPostWithoutAuthor = mockedPost.copy(1)
+
+        whenever(
+            postDatabase
+                .postDao()
+                .getPostWithComments(1)
+        )
+            .thenReturn(storedPostWithoutAuthor.toDbPostDetail())
+
+
+        val testObserver: TestObserver<Post> = localDatasource.getPostDetail(1).test()
+        testObserver.assertComplete()
+
+        testObserver.dispose()
+    }
+
+    @Test
+    fun `getPostWithComments should retrieve post with author and comments`() {
+        val storedPostWithDetails = mockedPost.copy(
+            1,
+            author = mockedAuthor.copy(1),
+            comments = listOf(mockedComment.copy(1))
+        )
+
+        whenever(
+            postDatabase
+                .postDao()
+                .getPostWithComments(1)
+        )
+            .thenReturn(storedPostWithDetails.toDbPostDetail())
+
+        val testObserver: TestObserver<Post> = localDatasource.getPostDetail(1).test()
+        testObserver.assertValue { it == storedPostWithDetails }
+
+        testObserver.dispose()
+    }
+
+    @Test
+    fun `savePosts should run an insert transaction`() {
+        val storedPosts = listOf(mockedPost.copy(1))
+
+        localDatasource.savePosts(storedPosts)
+
+        verify(postDatabase).runInTransaction(any())
     }
 }

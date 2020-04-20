@@ -61,10 +61,10 @@ fun EmojiTextView.setEmail(email: String?) {
 }
 
 private fun String.formatEmailWithEmojis(): String {
-    if (endsWith(".info")) {
-        return "$this  \u2139"
-    } else if (endsWith(".co.uk")) {
-        return "$this  \uD83C\uDDEC\uD83C\uDDE7"
+    if (endsWith(Author.END_INFO)) {
+        return "$this  ${Author.INFO}"
+    } else if (endsWith(Author.END_UK)) {
+        return "$this  ${Author.UK}"
     }
 
     return this

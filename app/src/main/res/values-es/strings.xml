@@ -7,4 +7,7 @@
 
     <string name="one_comment_count">1 Comentario</string>
     <string name="comments_count">%1d Comentarios</string>
+
+    <string name="licenses">Licencias</string>
+    <string name="open_source_licenses">Licencias de código abierto</string>
 </resources>

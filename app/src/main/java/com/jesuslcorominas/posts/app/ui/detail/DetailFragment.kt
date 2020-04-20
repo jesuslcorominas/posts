@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.jesuslcorominas.posts.app.R
 import com.jesuslcorominas.posts.app.databinding.FragmentDetailBinding
+import com.jesuslcorominas.posts.app.ui.common.BaseFragment
 import com.jesuslcorominas.posts.app.ui.common.applicationComponent
 import com.jesuslcorominas.posts.app.ui.common.bindingInflate
 import com.jesuslcorominas.posts.app.ui.common.getViewModel
 
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment() {
+
+    override val name: String? = DetailFragment::class.simpleName
 
     private lateinit var adapter: CommentAdapter
 
@@ -43,3 +45,4 @@ class DetailFragment : Fragment() {
         return binding?.root
     }
 }
+

@@ -9,6 +9,9 @@ val mockedPost = Post(
     1,
     "title",
     "body",
-    Author(1, "Author", "email@author.com"),
-    listOf(Comment(1, 2, "Comment name", "jesuslcorominas@gmail.com", "Comment body"))
+    null,
+    ArrayList()
 )
+
+val mockedAuthor = Author(1, "Author", "email@author.com")
+val mockedComment = Comment(1, 1, "Comment name", "jesuslcorominas@gmail.com", "Comment body")

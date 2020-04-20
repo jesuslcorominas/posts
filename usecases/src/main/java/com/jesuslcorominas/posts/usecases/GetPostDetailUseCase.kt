@@ -6,5 +6,5 @@ import io.reactivex.Single
 
 class GetPostDetailUseCase(private val postRepository: PostRepository) {
 
-    fun getPostDetailUseCase(postId: Int): Single<Post> = postRepository.getPostDetail(postId)
+    fun getPostDetail(postId: Int): Single<Post> = postRepository.getPostDetail(postId)
 }
