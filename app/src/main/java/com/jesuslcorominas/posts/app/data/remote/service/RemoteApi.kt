@@ -1,6 +1,5 @@
 package com.jesuslcorominas.posts.app.data.remote.service
 
-import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

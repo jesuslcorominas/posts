@@ -8,10 +8,6 @@ import com.jesuslcorominas.posts.app.ui.common.SchedulerProviderImpl
 import com.jesuslcorominas.posts.data.source.AnalyticsTracker
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module

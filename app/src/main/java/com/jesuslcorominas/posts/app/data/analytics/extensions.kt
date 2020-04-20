@@ -13,8 +13,7 @@ import java.io.Serializable
 fun <V> Map<String, V>.toBundle(bundle: Bundle = Bundle()): Bundle = bundle.apply {
     forEach {
         val k = it.key
-        val v = it.value
-        when (v) {
+        when (val v = it.value) {
             is IBinder -> putBinder(k, v)
             is Bundle -> putBundle(k, v)
             is Byte -> putByte(k, v)
