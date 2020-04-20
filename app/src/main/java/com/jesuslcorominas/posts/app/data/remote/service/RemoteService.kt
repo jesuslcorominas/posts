@@ -25,7 +25,7 @@ class RemoteService(baseUrl: String) {
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         .build()
         .run {
-            create<RemoteApi>(
+            create(
                 RemoteApi::class.java
             )
         }
