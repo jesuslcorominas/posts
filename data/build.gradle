@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(":domain")
+
+    implementation libs.values()
+
+    implementation kotlinLibs.values()
+    testImplementation testLibs.values()
+}
+

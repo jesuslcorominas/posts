@@ -1,0 +1,75 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Error" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ItemPost" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:padding">@dimen/margin_normal</item>
+    </style>
+
+    <style name="ItemPost.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="ItemPost.Content">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">3</item>
+    </style>
+
+    <style name="Post" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:padding">@dimen/margin_normal</item>
+    </style>
+
+    <style name="Post.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_xlarge</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="Post.Author">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="Post.Body">
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="Post.Comment" />
+
+    <style name="Post.Comment.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="Post.Comment.Author">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="Post.Comment.Body">
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Posts</string>
+
+    <string name="get_posts_error_message">Error getting posts.\nPlease, try again later.</string>
+    <string name="get_post_detail_error_message">Error getting post detail.\nPlease, try again later.</string>
+    <string name="unknown_error_message">Unknown error.\nPlease, try again later.</string>
+
+    <string name="one_comment_count">1 Comment</string>
+    <string name="comments_count">%1d Comments</string>
+
+    <string name="licenses">Licenses</string>
+    <string name="open_source_licenses">Open source licenses</string>
+</resources>
