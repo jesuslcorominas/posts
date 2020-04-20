@@ -9,6 +9,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.rule.ActivityTestRule
 import com.jesuslcorominas.posts.app.R
+import com.jesuslcorominas.posts.app.util.AsyncTaskSchedulerRule
 import com.jesuslcorominas.posts.app.util.SuccessDispatcher
 import com.jesuslcorominas.posts.app.util.fromJson
 import okhttp3.mockwebserver.MockResponse
@@ -19,10 +20,14 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.concurrent.thread
 
+
 class NavHostActivityTest {
 
     @get:Rule
     val activityTestRule = ActivityTestRule(NavHostActivity::class.java, false, false)
+
+    @get:Rule
+    val asyncTaskSchedulerRule = AsyncTaskSchedulerRule()
 
     lateinit var webServer: MockWebServer
 
@@ -31,6 +36,7 @@ class NavHostActivityTest {
         webServer = MockWebServer()
         webServer.start(8080)
         webServer.dispatcher = SuccessDispatcher()
+
     }
 
     @After
@@ -43,8 +49,9 @@ class NavHostActivityTest {
     fun testing() {
         activityTestRule.launchActivity(null)
 
+
 //        performClickOnRecyclerViewFirstItem()
-//        waitMillis(1000)
+
 
 //        checkHasNavigatedToDetail()
 

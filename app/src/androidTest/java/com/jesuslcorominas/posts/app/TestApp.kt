@@ -11,7 +11,7 @@ class TestApp : App() {
 
         appComponent = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
-            .dataModule(DataModule("http://localhost:8080/"))
+            .dataModule(DataModule(BuildConfig.BASE_URL))
             .build();
     }
 }
