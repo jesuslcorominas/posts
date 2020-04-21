@@ -19,6 +19,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.8.0")
+}
+
 allprojects {
     repositories {
         google()
@@ -125,6 +129,8 @@ allprojects {
                 extJunit  : 'androidx.test.ext:junit-ktx:1.1.1'
         ]
     }
+
+    apply from: "$rootDir/detekt.gradle"
 }
 
 task clean(type: Delete) {
