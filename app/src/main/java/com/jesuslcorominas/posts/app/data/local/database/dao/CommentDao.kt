@@ -4,8 +4,4 @@ import androidx.room.Dao
 import com.jesuslcorominas.posts.app.data.local.database.Comment
 
 @Dao
-interface CommentDao :
-    AbstractDao<Comment> {
-
-
-}
+interface CommentDao : AbstractDao<Comment>

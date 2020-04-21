@@ -32,7 +32,7 @@ class DetailViewModel(
     fun getPostDetail() {
         analyticsTracker.track(GetPostDetailEvent(postId))
 
-        _loading.value = true
+        mutableLoading.value = true
         hideError()
 
         disposables.add(
@@ -42,7 +42,7 @@ class DetailViewModel(
                 .subscribeWith(object : DisposableSingleObserver<Post>() {
                     override fun onSuccess(post: Post) {
                         _post.value = post
-                        _loading.value = false
+                        mutableLoading.value = false
                     }
 
                     override fun onError(e: Throwable) {
@@ -65,7 +65,7 @@ class DetailViewModel(
                         }
 
                         showError(e)
-                        _loading.value = false
+                        mutableLoading.value = false
                     }
                 })
         )

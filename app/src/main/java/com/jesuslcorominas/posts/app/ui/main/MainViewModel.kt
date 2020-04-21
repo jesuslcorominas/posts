@@ -36,7 +36,7 @@ class MainViewModel(
     fun getPosts() {
         analyticsTracker.track(GetPostsEvent())
 
-        _loading.value = true
+        mutableLoading.value = true
         hideError()
 
         disposables.add(
@@ -46,7 +46,7 @@ class MainViewModel(
                 .subscribeWith(object : DisposableSingleObserver<List<Post>>() {
                     override fun onSuccess(items: List<Post>) {
                         _items.value = items
-                        _loading.value = false
+                        mutableLoading.value = false
                     }
 
                     override fun onError(e: Throwable) {
@@ -66,7 +66,7 @@ class MainViewModel(
                         }
 
                         showError(e)
-                        _loading.value = false
+                        mutableLoading.value = false
                     }
                 })
         )

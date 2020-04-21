@@ -4,7 +4,4 @@ import androidx.room.Dao
 import com.jesuslcorominas.posts.app.data.local.database.Author
 
 @Dao
-interface AuthorDao :
-    AbstractDao<Author> {
-
-}
+interface AuthorDao : AbstractDao<Author>

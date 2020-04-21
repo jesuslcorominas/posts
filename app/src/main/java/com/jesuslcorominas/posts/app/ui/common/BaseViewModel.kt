@@ -6,22 +6,22 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected val _loading: MutableLiveData<Boolean> = MutableLiveData()
-    val loading: LiveData<Boolean> get() = _loading
+    protected val mutableLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val loading: LiveData<Boolean> get() = mutableLoading
 
-    protected val _hasError: MutableLiveData<Boolean> = MutableLiveData()
-    val hasError: LiveData<Boolean> get() = _hasError
+    protected val mutableHasError: MutableLiveData<Boolean> = MutableLiveData()
+    val hasError: LiveData<Boolean> get() = mutableHasError
 
-    protected val _error: MutableLiveData<Throwable> = MutableLiveData()
-    val error: LiveData<Throwable> get() = _error
+    protected val mutableError: MutableLiveData<Throwable> = MutableLiveData()
+    val error: LiveData<Throwable> get() = mutableError
 
     protected fun hideError() {
-        _hasError.value = false
-        _error.value = Exception()
+        mutableHasError.value = false
+        mutableError.value = Exception()
     }
 
     protected fun showError(e: Throwable) {
-        _error.value = e
-        _hasError.value = true
+        mutableError.value = e
+        mutableHasError.value = true
     }
 }

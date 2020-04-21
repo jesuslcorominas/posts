@@ -61,13 +61,14 @@ fun EmojiTextView.setEmail(email: String?) {
 }
 
 private fun String.formatEmailWithEmojis(): String {
+    var result = this
     if (endsWith(Author.END_INFO)) {
-        return "$this  ${Author.INFO}"
+        result = "$this  ${Author.INFO}"
     } else if (endsWith(Author.END_UK)) {
-        return "$this  ${Author.UK}"
+        result = "$this  ${Author.UK}"
     }
 
-    return this
+    return result
 }
 
 @BindingAdapter("avatar")

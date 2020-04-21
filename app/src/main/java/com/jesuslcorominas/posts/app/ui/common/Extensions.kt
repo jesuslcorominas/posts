@@ -11,17 +11,10 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.jesuslcorominas.posts.app.App
 import com.jesuslcorominas.posts.app.R
-import com.jesuslcorominas.posts.app.di.ApplicationComponent
 import com.squareup.picasso.Picasso
 import kotlin.properties.Delegates
 
@@ -63,37 +56,11 @@ fun ImageView.loadUrl(url: String) {
 
 }
 
-@Suppress("UNCHECKED_CAST")
-inline fun <reified T : ViewModel> Fragment.getViewModel(crossinline factory: () -> T): T {
-
-    val vmFactory = object : ViewModelProvider.Factory {
-        override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
-    }
-
-    return ViewModelProvider(this, vmFactory).get()
-}
-
-fun Fragment.applicationComponent(): ApplicationComponent =
-    (activity?.application as App).appComponent
-
 inline fun <reified T : Activity> Context.intentFor(body: Intent.() -> Unit): Intent =
     Intent(this, T::class.java).apply(body)
 
 inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
     startActivity(intentFor<T>(body))
-}
-
-inline fun <reified T : Activity> Fragment.startActivity(body: Intent.() -> Unit) {
-    activity?.startActivity<T>(body)
-}
-
-fun Fragment.showLicenses() {
-    OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_licenses))
-    startActivity<OssLicensesMenuActivity> { }
-}
-
-fun BaseFragment.trackScreen(name: String?) {
-    activity?.trackScreen(name)
 }
 
 fun Activity.trackScreen(name: String?) {

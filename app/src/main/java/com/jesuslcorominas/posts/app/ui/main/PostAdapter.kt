@@ -30,3 +30,4 @@ class PostAdapter(private val listener: (Post) -> Unit) :
 
     class ViewHolder(val dataBinding: ItemPostBinding) : RecyclerView.ViewHolder(dataBinding.root)
 }
+
