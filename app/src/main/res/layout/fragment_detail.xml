@@ -44,37 +44,37 @@
                     tools:src="@drawable/ic_photo" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/textViewTitle"
+                    android:id="@+id/textViewDetailTitle"
                     style="@style/Post.Title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{viewmodel.post.title}"
-                    app:layout_constraintBottom_toTopOf="@id/textViewAuthor"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDetailAuthor"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageViewPicture"
                     tools:text="John Doe" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/textViewAuthor"
+                    android:id="@+id/textViewDetailAuthor"
                     style="@style/Post.Author"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:author="@{viewmodel.post.author}"
-                    app:layout_constraintBottom_toTopOf="@id/textViewBody"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDetailBody"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDetailTitle"
                     tools:text="John Doe" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/textViewBody"
+                    android:id="@+id/textViewDetailBody"
                     style="@style/Post.Body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{viewmodel.post.body}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewAuthor"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDetailAuthor"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus eget ipsum vitae viverra. Etiam nisl leo, sodales pellentesque semper at, commodo vel turpis." />
                 <!-- endregion -->
 
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     app:comments_count="@{viewmodel.post.comments.size()}"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewBody"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDetailBody"
                     tools:text="@string/one_comment_count" />
 
                 <androidx.recyclerview.widget.RecyclerView
