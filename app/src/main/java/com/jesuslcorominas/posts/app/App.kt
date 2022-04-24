@@ -17,7 +17,7 @@ import java.io.IOException
 import java.net.SocketException
 
 
-class App : Application() {
+open class App : Application() {
 
     lateinit var appComponent: ApplicationComponent
 

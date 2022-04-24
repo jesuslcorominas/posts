@@ -10,11 +10,10 @@ import com.jesuslcorominas.posts.data.source.LocalDatasource
 import com.jesuslcorominas.posts.data.source.RemoteDatasource
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class DataModule (private val baseUrl:String){
+class DataModule(private val baseUrl: String) {
 
     @Singleton
     @Provides
