@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import androidx.test.runner.AndroidJUnitRunner
 import com.jesuslcorominas.posts.app.TestApp
+import com.squareup.rx2.idler.Rx2Idler
 
 
 class MockRunner : AndroidJUnitRunner() {
@@ -26,5 +27,11 @@ class MockRunner : AndroidJUnitRunner() {
         context: Context?
     ): Application? {
         return super.newApplication(cl, TestApp::class.java.getName(), context)
+    }
+
+    override fun onStart() {
+        Rx2Idler.create("RxJava 2.x Computation Scheduler")
+
+        super.onStart()
     }
 }
