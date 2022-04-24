@@ -17,37 +17,38 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.concurrent.thread
 
 class NavHostActivityTest {
 
     @get:Rule
     val activityTestRule = ActivityTestRule(NavHostActivity::class.java, false, false)
 
-    lateinit var webServer: MockWebServer
+    var webServer: MockWebServer? = null
 
     @Before
     fun setUp() {
-        webServer = MockWebServer()
-        webServer.start(8080)
-        webServer.dispatcher = SuccessDispatcher()
+        val thread = Thread(Runnable {
+            webServer = MockWebServer()
+            webServer?.start(8080)
+            webServer?.dispatcher = SuccessDispatcher()
+        })
+
+        thread.start()
+        thread.join()
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        webServer.shutdown()
+        webServer?.shutdown()
     }
 
     @Test
     fun testing() {
         activityTestRule.launchActivity(null)
 
-//        performClickOnRecyclerViewFirstItem()
-//        waitMillis(1000)
-
-//        checkHasNavigatedToDetail()
-
+        performClickOnRecyclerViewFirstItem()
+        checkHasNavigatedToDetail()
     }
 
     private fun performClickOnRecyclerViewFirstItem() =
@@ -63,26 +64,12 @@ class NavHostActivityTest {
             .check(ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("titulo de prueba"))))
 
     private fun enqueue(jsonFile: String) {
-        webServer.enqueue(
+        webServer?.enqueue(
             MockResponse().fromJson(
                 ApplicationProvider.getApplicationContext(),
                 jsonFile
             )
         )
-    }
-
-    private fun askMockServerUrlOnAnotherThread(): String {
-        /*
-        This needs to be done immediately, but the App will crash with
-        "NetworkOnMainThreadException" if this is not extracted from the main thread. So this is
-        a "hack" to prevent it. We don't care about blocking in a test, and it's fast.
-        */
-        var url = ""
-        val t = thread {
-            url = webServer.url("/").toString()
-        }
-        t.join()
-        return url
     }
 
 }
